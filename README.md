@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phase 1 complete** (data prep + Snowflake RAW load). Phases 2–14 are scaffolded.
+> Status: **Phases 1–4 complete** (data, marts, metadata, Snowflake connection). Next: NL→SQL.
 
 ---
 
@@ -100,9 +100,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 1 | Prepare CSVs + Snowflake `RAW` load | **Done** |
 | 2 | Curated + analytics tables/views | **Done** |
 | 3 | Business glossary + semantic metadata | **Done** |
-| 4 | Snowflake connection (local + SiS) | Next |
-| 4 | Snowflake connection (local + SiS) | Pending |
-| 5 | NL → SQL generation | Pending |
+| 4 | Snowflake connection (local + SiS) | **Done** |
+| 5 | NL → SQL generation | Next |
 | 6 | SQL validation | Pending |
 | 7 | Query execution | Pending |
 | 8 | Streamlit UI | Pending |
@@ -152,6 +151,18 @@ ANALYTICS_AI_DB
 ```
 
 (`CURATED`, `ANALYTICS`, `AI` schemas are created empty for later phases.)
+
+### Phase 4 — connection check
+
+```bash
+python scripts/test_connection.py
+streamlit run app.py
+```
+
+- **Local:** uses `.env` or `.streamlit/secrets.toml`
+- **Snowflake Streamlit (warehouse):** uses native `get_active_session()` — no password in the app
+- Entry files: `app.py` and `streamlit_app.py` (SiS often expects the latter)
+- Packages: `environment.yml` for SiS warehouse runtime
 
 ---
 

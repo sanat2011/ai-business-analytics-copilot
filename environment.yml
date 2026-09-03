@@ -1,0 +1,11 @@
+name: ai_analytics_copilot
+channels:
+  - snowflake
+dependencies:
+  - python=3.11.*
+  - snowflake-snowpark-python
+  - streamlit
+  - pandas
+  - numpy
+  - plotly
+  - python-dotenv
