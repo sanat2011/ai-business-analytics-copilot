@@ -220,11 +220,12 @@ analytics buttons, chat history with follow-up context, results table, and **Vie
 
 ---
 
-## 8. Known limitations (expected at Phase 1)
+## 8. Known limitations (MVP)
 
-- Streamlit UI and LLM SQL generation are not wired yet.
-- Demo data may be synthetic Superstore-schema if you use `--generate` instead of the Tableau file.
-- Curated marts and Cortex prompts land in Phases 2–5.
+- Chart auto-selection and LLM insights land in Phases 9–10.
+- Heuristic SQL covers common retail questions; Cortex/OpenAI improve coverage when enabled.
+- Demo data may be synthetic Superstore-schema if you used `--generate` instead of the Tableau file.
+- Local password auth is required outside Snowflake Streamlit; SiS uses the active session.
 
 ---
 
