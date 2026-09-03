@@ -73,7 +73,7 @@ with st.sidebar:
     )
     st.divider()
     st.subheader("About")
-    st.caption("Phases 1–5 ready. Next: SQL validation + execution + chat UI.")
+    st.caption("Phases 1–6 ready. Next: execute queries + chat UI.")
 
 # ---------------------------------------------------------------------------
 # Main — Phase 5 NL→SQL demo
@@ -103,13 +103,19 @@ if st.session_state.get("_demo_q") and not question:
 
 if st.button("Generate SQL", type="primary") and question:
     from src.sql_generator import generate_sql_detailed
+    from src.sql_validator import validate_sql_detailed
 
     with st.spinner("Generating SQL…"):
         result = generate_sql_detailed(question, provider=provider)
     st.session_state["_last_sql_result"] = result
     st.session_state["_last_question"] = question
+    if result.status == "ok":
+        st.session_state["_last_validation"] = validate_sql_detailed(result.sql)
+    else:
+        st.session_state["_last_validation"] = None
 
 result = st.session_state.get("_last_sql_result")
+validation = st.session_state.get("_last_validation")
 if result:
     st.markdown(f"**Question:** {st.session_state.get('_last_question', '')}")
     st.caption(
@@ -124,7 +130,17 @@ if result:
     elif result.status == "error":
         st.error(result.error or "SQL generation failed")
     else:
-        st.code(result.sql, language="sql")
+        if validation and not validation.ok:
+            st.error(validation.error or "SQL failed safety validation")
+            with st.expander("Rejected SQL"):
+                st.code(result.sql, language="sql")
+        else:
+            safe_sql = validation.sql if validation else result.sql
+            st.success("SQL validated (read-only SELECT)")
+            st.code(safe_sql, language="sql")
+            if validation and validation.warnings:
+                for w in validation.warnings:
+                    st.info(w)
     if result.warnings:
         for w in result.warnings:
             st.info(w)
@@ -138,7 +154,7 @@ st.markdown(
 
 1. ~~Suggested analytics / chat question~~ (partial — Phase 5 demo)  
 2. ~~`generate_sql()` with glossary + metadata~~ **Phase 5**  
-3. `validate_sql()` — SELECT only → **Phase 6**  
+3. ~~`validate_sql()` — SELECT only~~ **Phase 6**  
 4. `execute_query()` — read-only Snowflake → **Phase 7**  
 5. Auto visualization + business insight → **Phases 9–10**  
 6. Optional **View SQL**

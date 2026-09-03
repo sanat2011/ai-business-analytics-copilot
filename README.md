@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–5 complete** (data, marts, metadata, connection, NL→SQL). Next: SQL validation.
+> Status: **Phases 1–6 complete**. Next: query execution.
 
 ---
 
@@ -102,7 +102,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 3 | Business glossary + semantic metadata | **Done** |
 | 4 | Snowflake connection (local + SiS) | **Done** |
 | 5 | NL → SQL generation | **Done** |
-| 6 | SQL validation | Next |
+| 6 | SQL validation | **Done** |
+| 7 | Query execution | Next |
 | 7 | Query execution | Pending |
 | 8 | Streamlit UI | Pending |
 | 9 | Charts / KPIs | Pending |
@@ -178,6 +179,16 @@ python scripts/test_sql_generation.py heuristic
 3. **Heuristic templates** as offline / fallback for common retail questions
 
 Unsupported topics (e.g. employee attrition) return `INSUFFICIENT_DATA`.
+
+### Phase 6 — SQL validation
+
+`validate_sql(sql)` strips markdown fences, allows only `SELECT` / `WITH`, rejects
+`INSERT`/`UPDATE`/`DELETE`/`DROP`/`ALTER`/`CREATE`/`TRUNCATE`/`MERGE`/`GRANT`/`REVOKE`
+and multi-statements, and adds `LIMIT 100` to uncontrolled detail queries.
+
+```bash
+python -m pytest tests/test_sql_validator.py -q
+```
 
 ---
 
