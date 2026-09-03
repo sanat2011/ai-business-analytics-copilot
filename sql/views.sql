@@ -1,0 +1,21 @@
+-- =============================================================================
+-- Views — convenience aliases over curated / analytics (Phase 2)
+-- =============================================================================
+
+USE DATABASE ANALYTICS_AI_DB;
+
+CREATE OR REPLACE VIEW CURATED.V_ORDERS_ENRICHED AS
+SELECT *
+FROM ANALYTICS_AI_DB.ANALYTICS.SALES_ANALYTICS;
+
+CREATE OR REPLACE VIEW ANALYTICS.V_MONTHLY_REVENUE AS
+SELECT
+    ORDER_MONTH,
+    ORDER_YEAR,
+    SUM(SALES)  AS REVENUE,
+    SUM(PROFIT) AS PROFIT,
+    SUM(QUANTITY) AS QUANTITY,
+    COUNT(DISTINCT ORDER_ID) AS ORDER_COUNT
+FROM ANALYTICS_AI_DB.ANALYTICS.SALES_ANALYTICS
+GROUP BY ORDER_MONTH, ORDER_YEAR
+ORDER BY ORDER_MONTH;

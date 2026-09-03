@@ -1,0 +1,501 @@
+customer_id,customer_name,segment,country,state,city,postal_code,region
+CG-10000,Alejandro Davies,Corporate,United States,Arizona,Tucson,87272,West
+CG-10001,Jennifer Patel,Corporate,United States,California,San Francisco,78501,West
+CG-10002,Zuschuss Lonsdale,Home Office,United States,Texas,Austin,43371,Central
+CG-10003,Alejandro Johnson,Consumer,United States,Virginia,Richmond,50540,South
+CG-10004,Patricia Van,Home Office,United States,California,San Francisco,34908,West
+CG-10005,John Kriz,Home Office,United States,Texas,Austin,50111,Central
+CG-10006,Lisa Smith,Consumer,United States,Virginia,Richmond,27517,South
+CG-10007,Brosina Patel,Corporate,United States,New York,Buffalo,71473,East
+CG-10008,Alejandro Gonzalez,Consumer,United States,Maryland,Baltimore,16870,East
+CG-10009,Brosina Donatelli,Consumer,United States,New Jersey,Newark,21692,East
+CG-10010,Maria Brown,Home Office,United States,Pennsylvania,Pittsburgh,49343,East
+CG-10011,Harold Smith,Corporate,United States,Ohio,Columbus,84902,Central
+CG-10012,Patricia Watkins,Corporate,United States,Georgia,Atlanta,67307,South
+CG-10013,Brosina Johnson,Corporate,United States,Colorado,Denver,10662,West
+CG-10014,Zuschuss Patel,Corporate,United States,Virginia,Richmond,60007,South
+CG-10015,Sandra Gute,Consumer,United States,Massachusetts,Boston,22581,East
+CG-10016,Maria Donatelli,Corporate,United States,New Jersey,Newark,17127,East
+CG-10017,Sandra Flake,Corporate,United States,North Carolina,Raleigh,81541,South
+CG-10018,Claire Gonzalez,Consumer,United States,New Jersey,Newark,49304,East
+CG-10019,Jennifer Williams,Consumer,United States,Massachusetts,Boston,83949,East
+CG-10020,Irene Brown,Corporate,United States,Colorado,Denver,36423,West
+CG-10021,Ken Smith,Corporate,United States,Oregon,Portland,46826,West
+CG-10022,Robert Gonzalez,Consumer,United States,Massachusetts,Boston,25027,East
+CG-10023,John Chen,Consumer,United States,California,San Diego,51568,West
+CG-10024,Brosina Donatelli,Consumer,United States,North Carolina,Raleigh,72668,South
+CG-10025,Harold Chen,Consumer,United States,Washington,Seattle,66724,West
+CG-10026,Sean Gonzalez,Home Office,United States,Florida,Orlando,96569,South
+CG-10027,Zuschuss Watkins,Home Office,United States,New Jersey,Newark,33716,East
+CG-10028,John Smith,Consumer,United States,Georgia,Atlanta,50442,South
+CG-10029,Michael O'Donnell,Consumer,United States,California,San Francisco,51019,West
+CG-10030,Robert Flake,Consumer,United States,Illinois,Chicago,51688,Central
+CG-10031,Zuschuss Patel,Consumer,United States,Florida,Tampa,37779,South
+CG-10032,Darrin Nguyen,Consumer,United States,Texas,Dallas,78173,Central
+CG-10033,Claire Eckert,Consumer,United States,New Jersey,Newark,54458,East
+CG-10034,Sean Eckert,Consumer,United States,Texas,Austin,62887,Central
+CG-10035,Jennifer Flake,Consumer,United States,Maryland,Baltimore,65120,East
+CG-10036,Claire Eckert,Consumer,United States,Illinois,Chicago,96269,Central
+CG-10037,Darrin Van,Consumer,United States,New Jersey,Newark,70400,East
+CG-10038,Michael Eckert,Consumer,United States,Massachusetts,Boston,61454,East
+CG-10039,Jennifer Gonzalez,Corporate,United States,Georgia,Atlanta,86479,South
+CG-10040,Pete Johnson,Home Office,United States,Pennsylvania,Philadelphia,58853,East
+CG-10041,Harold O'Donnell,Corporate,United States,Washington,Spokane,20698,West
+CG-10042,John Patel,Corporate,United States,Pennsylvania,Pittsburgh,38860,East
+CG-10043,Jennifer Allen,Consumer,United States,Arizona,Tucson,22713,West
+CG-10044,Pete Gonzalez,Corporate,United States,Michigan,Detroit,84680,Central
+CG-10045,Andrew Jones,Consumer,United States,Georgia,Atlanta,65966,South
+CG-10046,Irene Jones,Consumer,United States,Minnesota,Minneapolis,94242,Central
+CG-10047,Alejandro Jones,Home Office,United States,Texas,Houston,99312,Central
+CG-10048,Patricia Allen,Consumer,United States,Arizona,Tucson,90409,West
+CG-10049,Lisa Gonzalez,Consumer,United States,Pennsylvania,Philadelphia,69548,East
+CG-10050,John Kriz,Home Office,United States,Florida,Tampa,33621,South
+CG-10051,Claire O'Donnell,Home Office,United States,Georgia,Atlanta,90271,South
+CG-10052,Pete Flake,Home Office,United States,Arizona,Phoenix,14030,West
+CG-10053,Jennifer Smith,Home Office,United States,Washington,Seattle,54937,West
+CG-10054,Sean Brown,Consumer,United States,Michigan,Detroit,11254,Central
+CG-10055,Maria Jones,Consumer,United States,New York,New York City,20964,East
+CG-10056,Lisa Flake,Consumer,United States,Virginia,Richmond,87787,South
+CG-10057,Darrin Patel,Consumer,United States,Florida,Tampa,49044,South
+CG-10058,Michael Van,Consumer,United States,Oregon,Portland,45781,West
+CG-10059,Ken Chen,Home Office,United States,Oregon,Portland,56891,West
+CG-10060,Michael Donatelli,Corporate,United States,Maryland,Baltimore,12237,East
+CG-10061,Sean Patel,Consumer,United States,Arizona,Tucson,22630,West
+CG-10062,Brosina Flake,Home Office,United States,Colorado,Denver,76448,West
+CG-10063,Emily Smith,Consumer,United States,North Carolina,Charlotte,69719,South
+CG-10064,Irene Smith,Consumer,United States,Washington,Spokane,40081,West
+CG-10065,Michael Williams,Corporate,United States,Ohio,Cleveland,36086,Central
+CG-10066,Michael Davies,Corporate,United States,New York,New York City,96634,East
+CG-10067,Zuschuss Lonsdale,Consumer,United States,Georgia,Atlanta,32305,South
+CG-10068,Robert Johnson,Consumer,United States,Virginia,Richmond,89346,South
+CG-10069,Sandra Kriz,Home Office,United States,Oregon,Portland,23155,West
+CG-10070,Sean Brown,Consumer,United States,Pennsylvania,Pittsburgh,92886,East
+CG-10071,Brosina Donatelli,Consumer,United States,Washington,Spokane,20393,West
+CG-10072,Brosina Johnson,Corporate,United States,Texas,Houston,14804,Central
+CG-10073,Pete Johnson,Consumer,United States,Ohio,Cleveland,38618,Central
+CG-10074,Lisa Williams,Consumer,United States,Minnesota,Minneapolis,54377,Central
+CG-10075,Andrew Allen,Corporate,United States,Colorado,Denver,32444,West
+CG-10076,Claire Gute,Corporate,United States,North Carolina,Charlotte,43624,South
+CG-10077,Robert O'Donnell,Home Office,United States,Florida,Miami,14676,South
+CG-10078,Robert Johnson,Home Office,United States,Texas,Austin,91237,Central
+CG-10079,Sandra Smith,Corporate,United States,Maryland,Baltimore,65464,East
+CG-10080,Sean Johnson,Consumer,United States,Virginia,Richmond,58245,South
+CG-10081,Robert Donatelli,Consumer,United States,Tennessee,Nashville,71754,South
+CG-10082,Irene Van,Consumer,United States,Illinois,Chicago,22579,Central
+CG-10083,Emily Allen,Consumer,United States,Oregon,Portland,55454,West
+CG-10084,Harold Davies,Corporate,United States,New Jersey,Newark,44151,East
+CG-10085,Michael Chen,Consumer,United States,Washington,Spokane,92470,West
+CG-10086,Zuschuss Lonsdale,Home Office,United States,Georgia,Atlanta,54032,South
+CG-10087,Robert Flake,Corporate,United States,Illinois,Chicago,57944,Central
+CG-10088,John Gute,Corporate,United States,Washington,Seattle,28216,West
+CG-10089,Michael O'Donnell,Corporate,United States,Minnesota,Minneapolis,67259,Central
+CG-10090,Sandra Van,Home Office,United States,Arizona,Tucson,75106,West
+CG-10091,Jennifer Eckert,Corporate,United States,Colorado,Denver,82078,West
+CG-10092,Jennifer Smith,Home Office,United States,New Jersey,Newark,18109,East
+CG-10093,Sandra Van,Corporate,United States,New Jersey,Newark,18554,East
+CG-10094,Sandra Gute,Consumer,United States,California,Los Angeles,61518,West
+CG-10095,John Smith,Corporate,United States,Michigan,Detroit,56593,Central
+CG-10096,Sean Brown,Consumer,United States,Pennsylvania,Pittsburgh,80735,East
+CG-10097,Zuschuss Chen,Consumer,United States,Arizona,Phoenix,92945,West
+CG-10098,Maria Patel,Home Office,United States,Georgia,Atlanta,40027,South
+CG-10099,Emily Watkins,Consumer,United States,Virginia,Richmond,57897,South
+CG-10100,Jennifer O'Donnell,Home Office,United States,Pennsylvania,Philadelphia,59950,East
+CG-10101,Pete O'Donnell,Corporate,United States,New Jersey,Newark,75670,East
+CG-10102,Pete Smith,Consumer,United States,Tennessee,Nashville,22593,South
+CG-10103,Jennifer Gute,Home Office,United States,New Jersey,Newark,74597,East
+CG-10104,Patricia Williams,Consumer,United States,New York,New York City,67336,East
+CG-10105,Claire Chen,Consumer,United States,Massachusetts,Boston,18610,East
+CG-10106,Robert Davies,Consumer,United States,New Jersey,Newark,36582,East
+CG-10107,Claire Gonzalez,Home Office,United States,Massachusetts,Boston,76439,East
+CG-10108,Pete Jones,Home Office,United States,North Carolina,Charlotte,71603,South
+CG-10109,Robert Gute,Home Office,United States,New Jersey,Newark,19577,East
+CG-10110,Maria Nguyen,Home Office,United States,Arizona,Phoenix,18139,West
+CG-10111,Andrew Donatelli,Corporate,United States,Florida,Miami,22871,South
+CG-10112,Michael Watkins,Consumer,United States,Florida,Miami,69063,South
+CG-10113,Darrin Johnson,Corporate,United States,California,Los Angeles,64532,West
+CG-10114,Irene Johnson,Consumer,United States,Georgia,Atlanta,70221,South
+CG-10115,Michael O'Donnell,Corporate,United States,Tennessee,Nashville,79488,South
+CG-10116,Alejandro Gute,Consumer,United States,Tennessee,Nashville,20235,South
+CG-10117,Ken Patel,Corporate,United States,Arizona,Tucson,17742,West
+CG-10118,Robert Patel,Consumer,United States,North Carolina,Charlotte,11417,South
+CG-10119,Ken Jones,Corporate,United States,New York,Buffalo,55837,East
+CG-10120,Claire Gute,Home Office,United States,California,San Francisco,51303,West
+CG-10121,Brosina Kriz,Consumer,United States,Michigan,Detroit,18254,Central
+CG-10122,Sandra Donatelli,Corporate,United States,Maryland,Baltimore,32903,East
+CG-10123,Sandra Davies,Home Office,United States,Minnesota,Minneapolis,23061,Central
+CG-10124,Alejandro Flake,Corporate,United States,Illinois,Chicago,33174,Central
+CG-10125,Michael Eckert,Consumer,United States,Michigan,Detroit,23359,Central
+CG-10126,Michael Donatelli,Consumer,United States,Michigan,Detroit,97605,Central
+CG-10127,Irene Van,Consumer,United States,Colorado,Denver,37423,West
+CG-10128,Alejandro Nguyen,Consumer,United States,Virginia,Richmond,23809,South
+CG-10129,Andrew Brown,Consumer,United States,Maryland,Baltimore,62946,East
+CG-10130,Alejandro Donatelli,Consumer,United States,Florida,Miami,52671,South
+CG-10131,Pete Flake,Corporate,United States,Oregon,Portland,59232,West
+CG-10132,Maria Nguyen,Corporate,United States,Michigan,Detroit,38458,Central
+CG-10133,Brosina Davies,Corporate,United States,Massachusetts,Boston,57373,East
+CG-10134,Ken Johnson,Home Office,United States,Maryland,Baltimore,76302,East
+CG-10135,Patricia Lonsdale,Corporate,United States,Colorado,Denver,34188,West
+CG-10136,Harold Lonsdale,Consumer,United States,Georgia,Atlanta,85363,South
+CG-10137,Darrin Williams,Consumer,United States,California,Los Angeles,85778,West
+CG-10138,Harold Donatelli,Consumer,United States,Washington,Spokane,25569,West
+CG-10139,Claire Davies,Home Office,United States,Arizona,Tucson,84444,West
+CG-10140,Brosina Allen,Consumer,United States,Pennsylvania,Pittsburgh,64075,East
+CG-10141,Ken Jones,Home Office,United States,Illinois,Chicago,50461,Central
+CG-10142,Lisa Chen,Corporate,United States,North Carolina,Charlotte,77776,South
+CG-10143,Emily Gonzalez,Consumer,United States,Maryland,Baltimore,10965,East
+CG-10144,Brosina Patel,Home Office,United States,North Carolina,Charlotte,24931,South
+CG-10145,Jennifer Flake,Home Office,United States,Tennessee,Nashville,82145,South
+CG-10146,Sean Lonsdale,Consumer,United States,Virginia,Richmond,50341,South
+CG-10147,Lisa Gute,Consumer,United States,New York,Buffalo,49039,East
+CG-10148,Brosina Allen,Consumer,United States,Florida,Miami,91638,South
+CG-10149,Brosina Watkins,Consumer,United States,Illinois,Chicago,99603,Central
+CG-10150,Claire Van,Consumer,United States,Ohio,Columbus,85651,Central
+CG-10151,Emily Flake,Corporate,United States,Tennessee,Nashville,68422,South
+CG-10152,Emily Van,Consumer,United States,Virginia,Richmond,76929,South
+CG-10153,Harold Brown,Consumer,United States,Minnesota,Minneapolis,86002,Central
+CG-10154,Patricia Kriz,Home Office,United States,Ohio,Cleveland,55430,Central
+CG-10155,Sean Williams,Consumer,United States,Massachusetts,Boston,62461,East
+CG-10156,Ken Lonsdale,Consumer,United States,Maryland,Baltimore,19448,East
+CG-10157,Emily Nguyen,Consumer,United States,Tennessee,Nashville,10769,South
+CG-10158,Irene Gute,Home Office,United States,Pennsylvania,Philadelphia,72171,East
+CG-10159,Harold O'Donnell,Consumer,United States,Massachusetts,Boston,63862,East
+CG-10160,John Lonsdale,Home Office,United States,Pennsylvania,Philadelphia,67038,East
+CG-10161,Patricia Donatelli,Corporate,United States,Virginia,Richmond,68578,South
+CG-10162,Irene Jones,Corporate,United States,North Carolina,Raleigh,51465,South
+CG-10163,Ken Patel,Consumer,United States,Florida,Miami,68469,South
+CG-10164,Maria Davies,Home Office,United States,Minnesota,Minneapolis,97282,Central
+CG-10165,John Jones,Consumer,United States,Washington,Spokane,77497,West
+CG-10166,Claire Lonsdale,Consumer,United States,California,Los Angeles,79960,West
+CG-10167,Patricia Donatelli,Home Office,United States,Tennessee,Nashville,31771,South
+CG-10168,Emily Van,Corporate,United States,New York,Buffalo,58636,East
+CG-10169,Michael Davies,Consumer,United States,Georgia,Atlanta,84031,South
+CG-10170,Claire Kriz,Corporate,United States,Washington,Spokane,19835,West
+CG-10171,Maria Smith,Home Office,United States,Virginia,Richmond,76587,South
+CG-10172,Robert Kriz,Consumer,United States,Illinois,Chicago,14406,Central
+CG-10173,Patricia Davies,Consumer,United States,Arizona,Phoenix,10405,West
+CG-10174,Ken Gute,Consumer,United States,New Jersey,Newark,72982,East
+CG-10175,Maria Watkins,Home Office,United States,Virginia,Richmond,31389,South
+CG-10176,Lisa Williams,Consumer,United States,Illinois,Chicago,73866,Central
+CG-10177,Pete O'Donnell,Home Office,United States,Michigan,Detroit,34733,Central
+CG-10178,Darrin Chen,Corporate,United States,Florida,Tampa,40773,South
+CG-10179,Ken Jones,Consumer,United States,Maryland,Baltimore,79775,East
+CG-10180,Sean O'Donnell,Home Office,United States,Massachusetts,Boston,61737,East
+CG-10181,John Flake,Consumer,United States,Virginia,Richmond,54621,South
+CG-10182,Zuschuss Gonzalez,Consumer,United States,Georgia,Atlanta,22092,South
+CG-10183,Andrew Flake,Consumer,United States,California,San Francisco,11590,West
+CG-10184,Patricia Gonzalez,Consumer,United States,Virginia,Richmond,89864,South
+CG-10185,Lisa Lonsdale,Consumer,United States,Tennessee,Nashville,58676,South
+CG-10186,Pete Allen,Consumer,United States,Maryland,Baltimore,90177,East
+CG-10187,Ken Jones,Corporate,United States,Georgia,Atlanta,76807,South
+CG-10188,Irene Williams,Consumer,United States,Ohio,Columbus,31723,Central
+CG-10189,Patricia Gute,Corporate,United States,California,San Francisco,35491,West
+CG-10190,Sandra Smith,Consumer,United States,New Jersey,Newark,87486,East
+CG-10191,Jennifer Flake,Corporate,United States,Maryland,Baltimore,70713,East
+CG-10192,Irene Smith,Consumer,United States,Minnesota,Minneapolis,25407,Central
+CG-10193,Sean Davies,Home Office,United States,Illinois,Chicago,68762,Central
+CG-10194,Alejandro O'Donnell,Home Office,United States,North Carolina,Raleigh,13225,South
+CG-10195,Claire Van,Consumer,United States,Texas,Houston,32145,Central
+CG-10196,Ken Smith,Consumer,United States,North Carolina,Charlotte,38130,South
+CG-10197,Pete Smith,Corporate,United States,Florida,Orlando,15447,South
+CG-10198,Harold Donatelli,Consumer,United States,Pennsylvania,Pittsburgh,45470,East
+CG-10199,Sean Davies,Consumer,United States,California,Los Angeles,87647,West
+CG-10200,Irene Donatelli,Consumer,United States,Oregon,Portland,46911,West
+CG-10201,Lisa Donatelli,Consumer,United States,Massachusetts,Boston,85707,East
+CG-10202,Andrew Brown,Corporate,United States,Washington,Spokane,53187,West
+CG-10203,Harold Allen,Consumer,United States,Pennsylvania,Pittsburgh,93733,East
+CG-10204,Patricia Patel,Consumer,United States,Massachusetts,Boston,64322,East
+CG-10205,Claire Brown,Consumer,United States,Washington,Seattle,93959,West
+CG-10206,Claire Eckert,Corporate,United States,Colorado,Denver,19956,West
+CG-10207,Sandra Allen,Home Office,United States,Pennsylvania,Philadelphia,63116,East
+CG-10208,Patricia Lonsdale,Consumer,United States,New York,New York City,65720,East
+CG-10209,Jennifer Williams,Consumer,United States,Virginia,Richmond,32362,South
+CG-10210,Jennifer Nguyen,Home Office,United States,North Carolina,Charlotte,17150,South
+CG-10211,Robert O'Donnell,Corporate,United States,New Jersey,Newark,38655,East
+CG-10212,Andrew Lonsdale,Consumer,United States,Arizona,Phoenix,47261,West
+CG-10213,Claire Patel,Consumer,United States,Florida,Tampa,41182,South
+CG-10214,John Johnson,Corporate,United States,Texas,Dallas,73727,Central
+CG-10215,Sean Williams,Corporate,United States,Georgia,Atlanta,31265,South
+CG-10216,Maria Chen,Consumer,United States,Arizona,Phoenix,81491,West
+CG-10217,Irene Gute,Consumer,United States,Texas,Austin,59801,Central
+CG-10218,Pete O'Donnell,Home Office,United States,North Carolina,Raleigh,18199,South
+CG-10219,Brosina Nguyen,Consumer,United States,North Carolina,Raleigh,74944,South
+CG-10220,Sandra O'Donnell,Corporate,United States,Oregon,Portland,36527,West
+CG-10221,Brosina Gute,Corporate,United States,Tennessee,Nashville,24063,South
+CG-10222,Patricia Johnson,Corporate,United States,Colorado,Denver,32829,West
+CG-10223,Ken Kriz,Corporate,United States,Oregon,Portland,57938,West
+CG-10224,Irene Smith,Home Office,United States,Ohio,Cleveland,23480,Central
+CG-10225,Ken Brown,Corporate,United States,Maryland,Baltimore,11122,East
+CG-10226,Alejandro Davies,Consumer,United States,Massachusetts,Boston,79498,East
+CG-10227,Pete Eckert,Consumer,United States,Virginia,Richmond,71431,South
+CG-10228,Irene Eckert,Consumer,United States,Maryland,Baltimore,92790,East
+CG-10229,Michael Allen,Consumer,United States,Tennessee,Nashville,29093,South
+CG-10230,Emily Williams,Consumer,United States,Virginia,Richmond,47169,South
+CG-10231,Maria Patel,Corporate,United States,Texas,Austin,95476,Central
+CG-10232,Sean Smith,Home Office,United States,Michigan,Detroit,91356,Central
+CG-10233,Ken Van,Consumer,United States,Virginia,Richmond,48791,South
+CG-10234,Claire Allen,Consumer,United States,Michigan,Detroit,98129,Central
+CG-10235,Michael Williams,Consumer,United States,Virginia,Richmond,66398,South
+CG-10236,Sandra Flake,Consumer,United States,Pennsylvania,Pittsburgh,10917,East
+CG-10237,Michael Lonsdale,Consumer,United States,Michigan,Detroit,52087,Central
+CG-10238,Pete Smith,Consumer,United States,Pennsylvania,Philadelphia,21799,East
+CG-10239,Claire Gonzalez,Home Office,United States,New Jersey,Newark,75452,East
+CG-10240,Zuschuss Smith,Home Office,United States,California,Los Angeles,40943,West
+CG-10241,Andrew Jones,Corporate,United States,Massachusetts,Boston,26718,East
+CG-10242,Zuschuss Watkins,Consumer,United States,Oregon,Portland,10772,West
+CG-10243,Andrew Chen,Consumer,United States,New York,Buffalo,89524,East
+CG-10244,Sean Watkins,Corporate,United States,Washington,Seattle,37146,West
+CG-10245,Michael O'Donnell,Home Office,United States,Virginia,Richmond,98610,South
+CG-10246,Sandra Van,Consumer,United States,Maryland,Baltimore,94714,East
+CG-10247,Alejandro Van,Home Office,United States,Pennsylvania,Pittsburgh,76865,East
+CG-10248,Ken Lonsdale,Consumer,United States,Michigan,Detroit,24877,Central
+CG-10249,Patricia Kriz,Corporate,United States,New York,New York City,62579,East
+CG-10250,Robert Kriz,Consumer,United States,Illinois,Chicago,19989,Central
+CG-10251,Claire Allen,Home Office,United States,Florida,Tampa,46762,South
+CG-10252,John O'Donnell,Consumer,United States,Washington,Spokane,26004,West
+CG-10253,Brosina Chen,Consumer,United States,Virginia,Richmond,47220,South
+CG-10254,John O'Donnell,Home Office,United States,Washington,Spokane,86619,West
+CG-10255,Ken Lonsdale,Consumer,United States,Illinois,Chicago,39977,Central
+CG-10256,Claire Brown,Home Office,United States,Washington,Seattle,10277,West
+CG-10257,Ken Watkins,Corporate,United States,Georgia,Atlanta,54154,South
+CG-10258,Robert Davies,Consumer,United States,Massachusetts,Boston,42374,East
+CG-10259,Darrin Donatelli,Home Office,United States,California,San Diego,23204,West
+CG-10260,Jennifer Allen,Consumer,United States,Washington,Spokane,88687,West
+CG-10261,Brosina Brown,Consumer,United States,Washington,Seattle,92387,West
+CG-10262,Jennifer Davies,Corporate,United States,Texas,Dallas,69439,Central
+CG-10263,Jennifer O'Donnell,Corporate,United States,Colorado,Denver,83646,West
+CG-10264,Robert Eckert,Home Office,United States,Massachusetts,Boston,71367,East
+CG-10265,Darrin Brown,Corporate,United States,Massachusetts,Boston,40815,East
+CG-10266,Lisa Nguyen,Consumer,United States,Ohio,Columbus,81426,Central
+CG-10267,Ken Davies,Corporate,United States,Colorado,Denver,77855,West
+CG-10268,Jennifer Watkins,Consumer,United States,Oregon,Portland,35280,West
+CG-10269,Lisa O'Donnell,Consumer,United States,Massachusetts,Boston,80886,East
+CG-10270,Pete Eckert,Consumer,United States,Michigan,Detroit,92965,Central
+CG-10271,John Donatelli,Corporate,United States,New Jersey,Newark,69240,East
+CG-10272,Emily Jones,Consumer,United States,Texas,Dallas,60020,Central
+CG-10273,Jennifer Johnson,Consumer,United States,California,San Diego,98916,West
+CG-10274,John Patel,Home Office,United States,Pennsylvania,Pittsburgh,50757,East
+CG-10275,Brosina Gonzalez,Home Office,United States,Ohio,Cleveland,74304,Central
+CG-10276,John Kriz,Corporate,United States,New Jersey,Newark,46282,East
+CG-10277,Ken Patel,Consumer,United States,Arizona,Tucson,91636,West
+CG-10278,Harold Chen,Consumer,United States,Arizona,Phoenix,46733,West
+CG-10279,Darrin Gonzalez,Corporate,United States,New York,Buffalo,70073,East
+CG-10280,Claire Williams,Consumer,United States,Ohio,Columbus,39388,Central
+CG-10281,Patricia Smith,Corporate,United States,Arizona,Tucson,32200,West
+CG-10282,Irene Smith,Consumer,United States,California,San Diego,22478,West
+CG-10283,Michael Brown,Consumer,United States,New Jersey,Newark,96451,East
+CG-10284,John Smith,Corporate,United States,Michigan,Detroit,95762,Central
+CG-10285,Harold Nguyen,Consumer,United States,Illinois,Chicago,74618,Central
+CG-10286,Alejandro Chen,Consumer,United States,North Carolina,Charlotte,58531,South
+CG-10287,Patricia Jones,Consumer,United States,New Jersey,Newark,64919,East
+CG-10288,Robert Williams,Consumer,United States,Colorado,Denver,87094,West
+CG-10289,Alejandro Nguyen,Consumer,United States,Ohio,Columbus,82822,Central
+CG-10290,Michael Jones,Home Office,United States,Oregon,Portland,93147,West
+CG-10291,Claire Patel,Corporate,United States,Tennessee,Nashville,30985,South
+CG-10292,Emily Donatelli,Consumer,United States,Florida,Orlando,64559,South
+CG-10293,Harold Watkins,Corporate,United States,Ohio,Columbus,42627,Central
+CG-10294,Maria Johnson,Home Office,United States,Pennsylvania,Philadelphia,61387,East
+CG-10295,Claire Gonzalez,Corporate,United States,Washington,Seattle,22087,West
+CG-10296,Sean Chen,Consumer,United States,Georgia,Atlanta,79689,South
+CG-10297,Jennifer Watkins,Consumer,United States,Washington,Seattle,27332,West
+CG-10298,Alejandro Nguyen,Home Office,United States,Oregon,Portland,36067,West
+CG-10299,Darrin Brown,Corporate,United States,Virginia,Richmond,22419,South
+CG-10300,Patricia Allen,Consumer,United States,Washington,Seattle,69710,West
+CG-10301,Sandra Eckert,Consumer,United States,Minnesota,Minneapolis,55577,Central
+CG-10302,Ken Watkins,Corporate,United States,Illinois,Chicago,71753,Central
+CG-10303,Claire Jones,Consumer,United States,Colorado,Denver,19537,West
+CG-10304,Sean Jones,Consumer,United States,Arizona,Tucson,36727,West
+CG-10305,Andrew Van,Corporate,United States,New York,New York City,78677,East
+CG-10306,Maria Johnson,Home Office,United States,Pennsylvania,Pittsburgh,94282,East
+CG-10307,Andrew Patel,Corporate,United States,Pennsylvania,Philadelphia,25065,East
+CG-10308,Irene O'Donnell,Home Office,United States,Pennsylvania,Pittsburgh,92414,East
+CG-10309,Harold Lonsdale,Consumer,United States,Washington,Seattle,55902,West
+CG-10310,Darrin Davies,Corporate,United States,Washington,Seattle,18894,West
+CG-10311,John Johnson,Consumer,United States,Washington,Spokane,12371,West
+CG-10312,Irene Johnson,Corporate,United States,California,San Diego,50930,West
+CG-10313,Alejandro Kriz,Corporate,United States,Florida,Miami,62878,South
+CG-10314,Andrew Lonsdale,Corporate,United States,Pennsylvania,Pittsburgh,74291,East
+CG-10315,Alejandro Allen,Consumer,United States,Pennsylvania,Philadelphia,68380,East
+CG-10316,Sean Smith,Consumer,United States,Tennessee,Nashville,17738,South
+CG-10317,Robert Van,Home Office,United States,California,Los Angeles,45865,West
+CG-10318,Maria Eckert,Consumer,United States,Florida,Tampa,50385,South
+CG-10319,Jennifer Jones,Home Office,United States,Colorado,Denver,50903,West
+CG-10320,Zuschuss Chen,Consumer,United States,Arizona,Phoenix,32671,West
+CG-10321,John Flake,Home Office,United States,Texas,Dallas,43392,Central
+CG-10322,Claire Lonsdale,Corporate,United States,Michigan,Detroit,14451,Central
+CG-10323,Emily Watkins,Consumer,United States,Massachusetts,Boston,33271,East
+CG-10324,Harold Flake,Consumer,United States,Florida,Tampa,77912,South
+CG-10325,Brosina Gonzalez,Corporate,United States,New York,Buffalo,67543,East
+CG-10326,Darrin Kriz,Consumer,United States,Minnesota,Minneapolis,10096,Central
+CG-10327,Lisa Nguyen,Consumer,United States,Minnesota,Minneapolis,85584,Central
+CG-10328,Robert Donatelli,Home Office,United States,Florida,Orlando,52719,South
+CG-10329,Zuschuss Flake,Consumer,United States,Washington,Seattle,37104,West
+CG-10330,Patricia Van,Consumer,United States,Texas,Houston,19418,Central
+CG-10331,Brosina Van,Home Office,United States,Massachusetts,Boston,22122,East
+CG-10332,Pete Allen,Consumer,United States,Washington,Seattle,14974,West
+CG-10333,Emily Davies,Home Office,United States,Pennsylvania,Pittsburgh,28484,East
+CG-10334,Maria Van,Consumer,United States,Colorado,Denver,14577,West
+CG-10335,Emily Davies,Home Office,United States,Oregon,Portland,20977,West
+CG-10336,Sean Johnson,Corporate,United States,Virginia,Richmond,22891,South
+CG-10337,Andrew Davies,Consumer,United States,North Carolina,Charlotte,52155,South
+CG-10338,Michael Johnson,Consumer,United States,Florida,Orlando,82120,South
+CG-10339,Zuschuss Lonsdale,Home Office,United States,Georgia,Atlanta,54429,South
+CG-10340,Robert Kriz,Corporate,United States,Georgia,Atlanta,52314,South
+CG-10341,Andrew Eckert,Consumer,United States,Arizona,Phoenix,81866,West
+CG-10342,Sandra Kriz,Consumer,United States,Florida,Orlando,49571,South
+CG-10343,Emily Kriz,Home Office,United States,Maryland,Baltimore,93408,East
+CG-10344,Lisa Gonzalez,Consumer,United States,Illinois,Chicago,97236,Central
+CG-10345,Zuschuss Watkins,Corporate,United States,Illinois,Chicago,69287,Central
+CG-10346,Harold Van,Consumer,United States,Pennsylvania,Pittsburgh,44072,East
+CG-10347,John Jones,Consumer,United States,New York,Buffalo,45018,East
+CG-10348,Lisa Lonsdale,Home Office,United States,North Carolina,Raleigh,33167,South
+CG-10349,Brosina Flake,Corporate,United States,Tennessee,Nashville,99309,South
+CG-10350,Robert Kriz,Home Office,United States,Arizona,Tucson,92918,West
+CG-10351,Claire Nguyen,Corporate,United States,Minnesota,Minneapolis,13468,Central
+CG-10352,Claire Gonzalez,Home Office,United States,North Carolina,Charlotte,76910,South
+CG-10353,Andrew Donatelli,Consumer,United States,Oregon,Portland,61102,West
+CG-10354,Harold Williams,Consumer,United States,Tennessee,Nashville,89087,South
+CG-10355,Irene Chen,Corporate,United States,North Carolina,Charlotte,24452,South
+CG-10356,Andrew Lonsdale,Home Office,United States,Oregon,Portland,16903,West
+CG-10357,Patricia Williams,Corporate,United States,Virginia,Richmond,26884,South
+CG-10358,Sandra Kriz,Consumer,United States,Tennessee,Nashville,45073,South
+CG-10359,Andrew Flake,Home Office,United States,North Carolina,Charlotte,75646,South
+CG-10360,Alejandro Brown,Consumer,United States,Minnesota,Minneapolis,43298,Central
+CG-10361,Lisa Allen,Consumer,United States,California,San Diego,85393,West
+CG-10362,John Williams,Consumer,United States,Illinois,Chicago,94599,Central
+CG-10363,Zuschuss Davies,Consumer,United States,Michigan,Detroit,72110,Central
+CG-10364,Pete Smith,Consumer,United States,Ohio,Columbus,65683,Central
+CG-10365,Jennifer Lonsdale,Consumer,United States,Michigan,Detroit,50259,Central
+CG-10366,Brosina Donatelli,Consumer,United States,Oregon,Portland,40972,West
+CG-10367,Brosina Davies,Corporate,United States,Minnesota,Minneapolis,47340,Central
+CG-10368,Darrin Flake,Home Office,United States,Georgia,Atlanta,68649,South
+CG-10369,Pete Davies,Consumer,United States,Virginia,Richmond,42799,South
+CG-10370,Pete Jones,Home Office,United States,Washington,Spokane,69463,West
+CG-10371,Ken Gonzalez,Home Office,United States,Washington,Spokane,44983,West
+CG-10372,Lisa Johnson,Consumer,United States,Washington,Spokane,35440,West
+CG-10373,Michael Eckert,Corporate,United States,California,San Diego,16230,West
+CG-10374,Sandra Patel,Consumer,United States,Tennessee,Nashville,45750,South
+CG-10375,Jennifer Watkins,Consumer,United States,Florida,Miami,37958,South
+CG-10376,Brosina Jones,Consumer,United States,Illinois,Chicago,70653,Central
+CG-10377,Ken Johnson,Home Office,United States,Florida,Tampa,65719,South
+CG-10378,Michael Nguyen,Corporate,United States,Georgia,Atlanta,21424,South
+CG-10379,Pete Lonsdale,Home Office,United States,Massachusetts,Boston,29398,East
+CG-10380,Lisa Donatelli,Consumer,United States,North Carolina,Raleigh,87628,South
+CG-10381,Brosina Kriz,Consumer,United States,Pennsylvania,Philadelphia,75145,East
+CG-10382,Lisa Patel,Home Office,United States,Oregon,Portland,50146,West
+CG-10383,Darrin Gute,Consumer,United States,Virginia,Richmond,87431,South
+CG-10384,Robert Allen,Consumer,United States,Washington,Spokane,69783,West
+CG-10385,Jennifer Gute,Consumer,United States,Tennessee,Nashville,31272,South
+CG-10386,Darrin O'Donnell,Corporate,United States,New York,Buffalo,27560,East
+CG-10387,Irene Lonsdale,Corporate,United States,Maryland,Baltimore,81673,East
+CG-10388,Robert Williams,Home Office,United States,Oregon,Portland,65600,West
+CG-10389,Sean Gonzalez,Consumer,United States,Minnesota,Minneapolis,52474,Central
+CG-10390,Alejandro Nguyen,Consumer,United States,Oregon,Portland,95111,West
+CG-10391,Sean Lonsdale,Consumer,United States,New Jersey,Newark,65479,East
+CG-10392,Brosina Chen,Consumer,United States,New York,Buffalo,82718,East
+CG-10393,Michael Eckert,Home Office,United States,Arizona,Tucson,78670,West
+CG-10394,Sean Flake,Consumer,United States,Colorado,Denver,54787,West
+CG-10395,Michael Davies,Home Office,United States,Oregon,Portland,18909,West
+CG-10396,Zuschuss Brown,Consumer,United States,Massachusetts,Boston,47958,East
+CG-10397,Andrew Allen,Corporate,United States,Michigan,Detroit,65004,Central
+CG-10398,Jennifer Gute,Home Office,United States,Oregon,Portland,52209,West
+CG-10399,John Van,Home Office,United States,Massachusetts,Boston,74767,East
+CG-10400,Michael Davies,Corporate,United States,Ohio,Cleveland,27377,Central
+CG-10401,Emily Gonzalez,Corporate,United States,Virginia,Richmond,41290,South
+CG-10402,Michael Jones,Consumer,United States,Virginia,Richmond,63915,South
+CG-10403,Robert Kriz,Corporate,United States,New Jersey,Newark,55518,East
+CG-10404,Ken Allen,Corporate,United States,Massachusetts,Boston,41470,East
+CG-10405,Pete Nguyen,Corporate,United States,Washington,Seattle,30215,West
+CG-10406,Irene Flake,Home Office,United States,Virginia,Richmond,19965,South
+CG-10407,Brosina Kriz,Corporate,United States,Florida,Miami,36219,South
+CG-10408,John Smith,Corporate,United States,Colorado,Denver,85261,West
+CG-10409,Lisa Donatelli,Consumer,United States,Arizona,Phoenix,45016,West
+CG-10410,Pete O'Donnell,Corporate,United States,Pennsylvania,Philadelphia,84633,East
+CG-10411,Alejandro Donatelli,Corporate,United States,Texas,Houston,62341,Central
+CG-10412,Andrew Davies,Home Office,United States,Texas,Austin,34915,Central
+CG-10413,Brosina Eckert,Consumer,United States,Washington,Seattle,40901,West
+CG-10414,Andrew Brown,Consumer,United States,New Jersey,Newark,77659,East
+CG-10415,Sean Gute,Consumer,United States,Washington,Seattle,49493,West
+CG-10416,Michael Allen,Corporate,United States,Georgia,Atlanta,15313,South
+CG-10417,Zuschuss Nguyen,Home Office,United States,Georgia,Atlanta,67869,South
+CG-10418,Zuschuss Nguyen,Home Office,United States,Minnesota,Minneapolis,84914,Central
+CG-10419,Pete Donatelli,Consumer,United States,North Carolina,Raleigh,73943,South
+CG-10420,Zuschuss Donatelli,Consumer,United States,Oregon,Portland,54487,West
+CG-10421,Lisa Flake,Home Office,United States,Massachusetts,Boston,99055,East
+CG-10422,Brosina Smith,Home Office,United States,Arizona,Phoenix,79348,West
+CG-10423,Patricia O'Donnell,Consumer,United States,Virginia,Richmond,90090,South
+CG-10424,John Watkins,Corporate,United States,Oregon,Portland,66602,West
+CG-10425,Jennifer Flake,Consumer,United States,North Carolina,Charlotte,29389,South
+CG-10426,John Van,Home Office,United States,Washington,Seattle,78898,West
+CG-10427,Claire Chen,Consumer,United States,New York,Buffalo,76587,East
+CG-10428,Jennifer Watkins,Home Office,United States,Washington,Spokane,79245,West
+CG-10429,Jennifer Johnson,Consumer,United States,Washington,Spokane,96429,West
+CG-10430,Sandra Watkins,Consumer,United States,Pennsylvania,Pittsburgh,98739,East
+CG-10431,Irene Smith,Corporate,United States,New Jersey,Newark,79820,East
+CG-10432,John Johnson,Consumer,United States,Illinois,Chicago,70892,Central
+CG-10433,Sandra Kriz,Consumer,United States,Oregon,Portland,99466,West
+CG-10434,Ken Patel,Consumer,United States,Washington,Spokane,82893,West
+CG-10435,John Eckert,Consumer,United States,Washington,Seattle,43438,West
+CG-10436,Alejandro Davies,Home Office,United States,California,San Francisco,53147,West
+CG-10437,Maria O'Donnell,Consumer,United States,Ohio,Cleveland,98467,Central
+CG-10438,Andrew Brown,Consumer,United States,Michigan,Detroit,99368,Central
+CG-10439,Jennifer Van,Consumer,United States,Texas,Austin,21791,Central
+CG-10440,Alejandro Donatelli,Consumer,United States,California,Los Angeles,27301,West
+CG-10441,Michael Lonsdale,Consumer,United States,Georgia,Atlanta,82244,South
+CG-10442,Sean Watkins,Consumer,United States,Illinois,Chicago,12124,Central
+CG-10443,Michael Allen,Home Office,United States,North Carolina,Charlotte,66882,South
+CG-10444,Darrin Eckert,Corporate,United States,Pennsylvania,Philadelphia,49011,East
+CG-10445,Pete Brown,Home Office,United States,Florida,Miami,32334,South
+CG-10446,Ken Van,Home Office,United States,Florida,Miami,58731,South
+CG-10447,Ken Smith,Consumer,United States,New York,Buffalo,20958,East
+CG-10448,Sean Patel,Consumer,United States,Florida,Tampa,15104,South
+CG-10449,Jennifer Patel,Home Office,United States,Florida,Orlando,24511,South
+CG-10450,Alejandro O'Donnell,Consumer,United States,Ohio,Columbus,37780,Central
+CG-10451,Ken Flake,Consumer,United States,Ohio,Cleveland,84890,Central
+CG-10452,Michael Smith,Corporate,United States,Tennessee,Nashville,32205,South
+CG-10453,Irene Lonsdale,Consumer,United States,New Jersey,Newark,40325,East
+CG-10454,Claire Patel,Home Office,United States,North Carolina,Raleigh,24107,South
+CG-10455,Pete Kriz,Consumer,United States,Georgia,Atlanta,67439,South
+CG-10456,Andrew Van,Consumer,United States,Colorado,Denver,65400,West
+CG-10457,Ken Smith,Consumer,United States,Florida,Miami,64904,South
+CG-10458,Lisa Gonzalez,Corporate,United States,North Carolina,Raleigh,28672,South
+CG-10459,Irene Chen,Home Office,United States,Pennsylvania,Pittsburgh,95314,East
+CG-10460,Andrew Brown,Corporate,United States,Oregon,Portland,74071,West
+CG-10461,Zuschuss Van,Consumer,United States,Michigan,Detroit,83641,Central
+CG-10462,Claire Johnson,Home Office,United States,Virginia,Richmond,45678,South
+CG-10463,John Lonsdale,Home Office,United States,Florida,Orlando,33184,South
+CG-10464,Patricia Watkins,Corporate,United States,Arizona,Tucson,29433,West
+CG-10465,Lisa Allen,Consumer,United States,New Jersey,Newark,46686,East
+CG-10466,Alejandro Patel,Corporate,United States,Washington,Spokane,43441,West
+CG-10467,Ken O'Donnell,Consumer,United States,Minnesota,Minneapolis,52851,Central
+CG-10468,Andrew Gute,Corporate,United States,Arizona,Phoenix,89924,West
+CG-10469,Sandra O'Donnell,Home Office,United States,Washington,Spokane,22692,West
+CG-10470,Maria Brown,Consumer,United States,Colorado,Denver,84509,West
+CG-10471,Sean Van,Consumer,United States,Washington,Seattle,44237,West
+CG-10472,Darrin Van,Consumer,United States,California,San Diego,57512,West
+CG-10473,Sandra Van,Corporate,United States,Virginia,Richmond,79696,South
+CG-10474,Harold Nguyen,Corporate,United States,Maryland,Baltimore,94490,East
+CG-10475,Alejandro Patel,Consumer,United States,Michigan,Detroit,41145,Central
+CG-10476,Lisa Smith,Consumer,United States,California,San Francisco,33463,West
+CG-10477,Lisa Johnson,Consumer,United States,Georgia,Atlanta,95760,South
+CG-10478,Patricia Van,Corporate,United States,Ohio,Cleveland,28586,Central
+CG-10479,Andrew Donatelli,Home Office,United States,New Jersey,Newark,72000,East
+CG-10480,Sandra Allen,Corporate,United States,Washington,Spokane,36084,West
+CG-10481,Alejandro Nguyen,Corporate,United States,New Jersey,Newark,93225,East
+CG-10482,Emily Chen,Corporate,United States,Washington,Spokane,64844,West
+CG-10483,Darrin Davies,Consumer,United States,Arizona,Phoenix,99646,West
+CG-10484,Robert Patel,Consumer,United States,Washington,Seattle,86088,West
+CG-10485,Claire Smith,Consumer,United States,North Carolina,Raleigh,58644,South
+CG-10486,John Brown,Consumer,United States,New York,Buffalo,96307,East
+CG-10487,Jennifer Patel,Consumer,United States,Ohio,Cleveland,46888,Central
+CG-10488,Ken Brown,Consumer,United States,Ohio,Columbus,60164,Central
+CG-10489,Jennifer Lonsdale,Consumer,United States,Maryland,Baltimore,50551,East
+CG-10490,Darrin Flake,Consumer,United States,Pennsylvania,Philadelphia,10051,East
+CG-10491,Ken Patel,Consumer,United States,New Jersey,Newark,29394,East
+CG-10492,Brosina O'Donnell,Consumer,United States,Minnesota,Minneapolis,94695,Central
+CG-10493,Brosina Gonzalez,Corporate,United States,New Jersey,Newark,37725,East
+CG-10494,Brosina Allen,Home Office,United States,Pennsylvania,Pittsburgh,95001,East
+CG-10495,Zuschuss Johnson,Home Office,United States,Texas,Austin,82629,Central
+CG-10496,Harold Watkins,Consumer,United States,Arizona,Phoenix,67491,West
+CG-10497,Claire Jones,Corporate,United States,Ohio,Cleveland,40679,Central
+CG-10498,Alejandro Brown,Consumer,United States,Ohio,Cleveland,44121,Central
+CG-10499,Andrew Gonzalez,Consumer,United States,Ohio,Cleveland,31741,Central

@@ -1,0 +1,12 @@
+# AI Business Analytics Copilot — MVP dependencies
+# Python 3.11+ recommended (local venv may be 3.12/3.14)
+
+streamlit>=1.32.0,<2
+pandas>=2.1.0,<3
+numpy>=1.26.0,<3
+plotly>=5.18.0,<6
+snowflake-connector-python>=3.6.0,<4
+snowflake-snowpark-python>=1.11.0,<2
+python-dotenv>=1.0.0,<2
+requests>=2.31.0,<3
+pytest>=8.0.0,<9
