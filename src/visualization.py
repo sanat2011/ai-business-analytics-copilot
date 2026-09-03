@@ -32,6 +32,9 @@ DISPLAY_ROW_LIMIT = 200
 def _is_datetime_series(s: pd.Series) -> bool:
     if pd.api.types.is_datetime64_any_dtype(s):
         return True
+    name = str(s.name or "")
+    if not TIME_NAME_RE.search(name):
+        return False
     if s.dtype == object or pd.api.types.is_string_dtype(s):
         sample = s.dropna().astype(str).head(8)
         if sample.empty:
