@@ -6,6 +6,8 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 > Status: **MVP complete (Phases 1–14)**. Deploy via Snowflake Streamlit + GitHub.
 
+**New developers / interview prep:** see **[docs/DEVELOPER_INTERVIEW_GUIDE.md](docs/DEVELOPER_INTERVIEW_GUIDE.md)** — file map, function deep-dives, and Q&A.
+
 ---
 
 ## 1. Business problem
