@@ -98,7 +98,7 @@ def run_analytics_question(
     qres = execute_query(
         gen.sql,
         user_question=question,
-        log_to_snowflake=log_to_snowflake,
+        log_to_snowflake=False,  # pipeline logs once with visualization_type
     )
     warnings = list(gen.warnings) + list(qres.warnings)
 
@@ -150,6 +150,24 @@ def run_analytics_question(
     )
     if insight.error:
         warnings.append(insight.error)
+
+    from src.visualization import choose_visualization
+
+    viz = choose_visualization(qres.dataframe, question) if qres.dataframe is not None else None
+
+    # Full observability row (includes visualization type)
+    if log_to_snowflake:
+        from src.query_executor import log_query_event
+
+        log_query_event(
+            user_question=question,
+            sql=qres.sql,
+            status="success",
+            execution_time_ms=qres.execution_time_ms,
+            row_count=qres.row_count,
+            error=None,
+            visualization_type=viz,
+        )
 
     return AnalyticsTurn(
         question=question,

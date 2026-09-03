@@ -47,6 +47,7 @@ def execute_query(
     skip_validation: bool = False,
     log_to_snowflake: bool = True,
     session: Any | None = None,
+    visualization_type: str | None = None,
 ) -> QueryResult:
     """
     Validate (unless skipped) and execute a read-only SQL query.
@@ -82,6 +83,7 @@ def execute_query(
                 error=result.error,
                 log_to_snowflake=log_to_snowflake,
                 session=session,
+                visualization_type=visualization_type,
             )
             return result
         safe_sql = validation.sql
@@ -112,6 +114,7 @@ def execute_query(
             error=result.error,
             log_to_snowflake=log_to_snowflake,
             session=session,
+            visualization_type=visualization_type,
         )
         return result
     except Exception as exc:
@@ -135,6 +138,7 @@ def execute_query(
             error=msg,
             log_to_snowflake=log_to_snowflake,
             session=session,
+            visualization_type=visualization_type,
         )
         return result
 
@@ -161,6 +165,31 @@ def _friendly_error(exc: Exception) -> str:
     return f"Snowflake execution failed: {text}"
 
 
+def log_query_event(
+    *,
+    user_question: str | None,
+    sql: str,
+    status: str,
+    execution_time_ms: float,
+    row_count: int,
+    error: str | None = None,
+    visualization_type: str | None = None,
+    session: Any | None = None,
+) -> None:
+    """Public helper for AI query observability logging."""
+    _maybe_log(
+        user_question=user_question,
+        sql=sql,
+        status=status,
+        execution_time_ms=execution_time_ms,
+        row_count=row_count,
+        error=error,
+        log_to_snowflake=True,
+        session=session,
+        visualization_type=visualization_type,
+    )
+
+
 def _maybe_log(
     *,
     user_question: str | None,
@@ -171,6 +200,7 @@ def _maybe_log(
     error: str | None,
     log_to_snowflake: bool,
     session: Any | None,
+    visualization_type: str | None = None,
 ) -> None:
     if not log_to_snowflake:
         return
@@ -179,19 +209,21 @@ def _maybe_log(
             from src.snowflake_connection import get_session
 
             session = get_session()
-        # Escape single quotes for literal insert (MVP). Prefer binds when available.
         q = (user_question or "").replace("'", "''")[:4000]
         s = (sql or "").replace("'", "''")[:8000]
         e = (error or "").replace("'", "''")[:4000]
+        viz = (visualization_type or "").replace("'", "''")[:100]
+        viz_sql = "NULL" if not viz else f"'{viz}'"
+        err_sql = "NULL" if not e else f"'{e}'"
         session.sql(
             f"""
             INSERT INTO ANALYTICS_AI_DB.AI.QUERY_LOG
-              (USER_QUESTION, GENERATED_SQL, EXECUTION_STATUS, EXECUTION_TIME_MS, ROW_COUNT, ERROR_MESSAGE)
+              (USER_QUESTION, GENERATED_SQL, EXECUTION_STATUS, EXECUTION_TIME_MS,
+               ROW_COUNT, ERROR_MESSAGE, VISUALIZATION_TYPE)
             VALUES
               ('{q}', '{s}', '{status}', {int(execution_time_ms)}, {int(row_count)},
-               {'NULL' if not e else f"'{e}'"})
+               {err_sql}, {viz_sql})
             """
         ).collect()
     except Exception as log_exc:
-        # Logging must never break the user path
         logger.debug("QUERY_LOG write skipped: %s", log_exc)

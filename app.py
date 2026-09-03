@@ -122,7 +122,7 @@ with st.sidebar:
     st.subheader("About")
     st.caption(
         "Natural language → validated read-only SQL → Snowflake. "
-        "Phases 1–12 complete. Broader test pack next."
+        "Phases 1–13 complete. Deploy to Snowflake Streamlit next."
     )
 
 # ---------------------------------------------------------------------------

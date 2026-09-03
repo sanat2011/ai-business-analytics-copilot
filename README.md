@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–12 complete**. Next: 25-question test pack + logging polish.
+> Status: **Phases 1–13 complete**. Next: Snowflake Streamlit deployment guide.
 
 ---
 
@@ -109,8 +109,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 10 | AI insights | **Done** |
 | 11 | Default / suggested analytics | **Done** |
 | 12 | Conversation context | **Done** |
-| 13 | Logging + tests (25+ questions) | Next |
-| 14 | Deploy Streamlit in Snowflake | Pending |
+| 13 | Logging + tests (25+ questions) | **Done** |
+| 14 | Deploy Streamlit in Snowflake | Next |
 
 ---
 
@@ -228,6 +228,18 @@ Twelve clickable defaults (Revenue / Products / Customers / Performance) in
 
 Follow-ups like “Now show their profit.” reuse the last turn’s entity
 (products / customers / regions / categories) via `src/conversation.py`.
+
+### Phase 13 — testing & observability
+
+25 curated questions in `tests/question_catalog.py` / `tests/test_queries.py`.
+
+```bash
+python -m pytest tests/test_queries.py -q
+python scripts/run_question_tests.py          # SQL+validation report
+python scripts/run_question_tests.py --live   # also execute on Snowflake
+```
+
+Successful chat turns log to `ANALYTICS_AI_DB.AI.QUERY_LOG` including `VISUALIZATION_TYPE`.
 
 ---
 

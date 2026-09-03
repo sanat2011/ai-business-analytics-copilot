@@ -319,6 +319,16 @@ ORDER BY TOTAL_SALES DESC
 LIMIT 10
 """.strip()
 
+    if ("highest" in q or "top" in q) and "customer" in q and (
+        "sales" in q or "revenue" in q
+    ):
+        return f"""
+SELECT CUSTOMER_ID, CUSTOMER_NAME, TOTAL_SALES, TOTAL_PROFIT
+FROM {customers}
+ORDER BY TOTAL_SALES DESC
+LIMIT 10
+""".strip()
+
     if ("top" in q or "highest" in q) and "product" in q and "profit" in q:
         return f"""
 SELECT PRODUCT_ID, PRODUCT_NAME, TOTAL_PROFIT, TOTAL_SALES
@@ -429,6 +439,14 @@ SELECT CATEGORY, SUM(PROFIT) AS TOTAL_PROFIT
 FROM {sales}
 GROUP BY CATEGORY
 ORDER BY TOTAL_PROFIT DESC
+""".strip()
+
+    if "categor" in q and ("highest" in q or "top" in q) and "quantity" in q:
+        return f"""
+SELECT CATEGORY, SUM(QUANTITY) AS TOTAL_QUANTITY
+FROM {sales}
+GROUP BY CATEGORY
+ORDER BY TOTAL_QUANTITY DESC
 """.strip()
 
     if "categor" in q and ("highest" in q or "top" in q):
