@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–6 complete**. Next: query execution.
+> Status: **Phases 1–7 complete**. Next: full Streamlit chat UI.
 
 ---
 
@@ -188,6 +188,16 @@ and multi-statements, and adds `LIMIT 100` to uncontrolled detail queries.
 
 ```bash
 python -m pytest tests/test_sql_validator.py -q
+```
+
+### Phase 7 — query execution
+
+`execute_query(sql)` validates, runs read-only SQL via Snowpark, returns a pandas
+DataFrame, and optionally logs to `ANALYTICS_AI_DB.AI.QUERY_LOG`.
+
+```bash
+python -m pytest tests/test_query_executor.py -q
+streamlit run app.py   # use "Run on Snowflake"
 ```
 
 ---

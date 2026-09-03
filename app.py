@@ -1,8 +1,7 @@
 """
 AI Business Analytics Copilot — Streamlit entry point.
 
-Phase 4: Snowflake connection health
-Phase 5: NL → SQL generation demo
+Phases 4–7: connection, NL→SQL, validation, execution.
 Full chat UI arrives in Phase 8.
 """
 
@@ -73,10 +72,10 @@ with st.sidebar:
     )
     st.divider()
     st.subheader("About")
-    st.caption("Phases 1–6 ready. Next: execute queries + chat UI.")
+    st.caption("Phases 1–7 ready. Next: full chat UI + charts + insights.")
 
 # ---------------------------------------------------------------------------
-# Main — Phase 5 NL→SQL demo
+# Main — generate → validate → execute
 # ---------------------------------------------------------------------------
 st.subheader("Ask a question")
 question = st.text_input(
@@ -101,7 +100,11 @@ for col, example in zip(cols, examples):
 if st.session_state.get("_demo_q") and not question:
     question = st.session_state["_demo_q"]
 
-if st.button("Generate SQL", type="primary") and question:
+run_cols = st.columns([1, 1, 2])
+generate_clicked = run_cols[0].button("Generate SQL", type="primary")
+run_clicked = run_cols[1].button("Run on Snowflake")
+
+if generate_clicked and question:
     from src.sql_generator import generate_sql_detailed
     from src.sql_validator import validate_sql_detailed
 
@@ -109,13 +112,44 @@ if st.button("Generate SQL", type="primary") and question:
         result = generate_sql_detailed(question, provider=provider)
     st.session_state["_last_sql_result"] = result
     st.session_state["_last_question"] = question
+    st.session_state.pop("_last_query_result", None)
     if result.status == "ok":
         st.session_state["_last_validation"] = validate_sql_detailed(result.sql)
     else:
         st.session_state["_last_validation"] = None
 
+if run_clicked:
+    from src.query_executor import execute_query
+    from src.sql_generator import generate_sql_detailed
+    from src.sql_validator import validate_sql_detailed
+
+    q = question or st.session_state.get("_last_question")
+    if not q:
+        st.warning("Enter a question first.")
+    else:
+        with st.spinner("Generating, validating, and running on Snowflake…"):
+            gen = generate_sql_detailed(q, provider=provider)
+            st.session_state["_last_sql_result"] = gen
+            st.session_state["_last_question"] = q
+            if gen.status != "ok":
+                st.session_state["_last_validation"] = None
+                st.session_state["_last_query_result"] = None
+            else:
+                val = validate_sql_detailed(gen.sql)
+                st.session_state["_last_validation"] = val
+                if val.ok:
+                    st.session_state["_last_query_result"] = execute_query(
+                        val.sql,
+                        user_question=q,
+                        skip_validation=True,  # already validated
+                    )
+                else:
+                    st.session_state["_last_query_result"] = None
+
 result = st.session_state.get("_last_sql_result")
 validation = st.session_state.get("_last_validation")
+query_result = st.session_state.get("_last_query_result")
+
 if result:
     st.markdown(f"**Question:** {st.session_state.get('_last_question', '')}")
     st.caption(
@@ -137,26 +171,41 @@ if result:
         else:
             safe_sql = validation.sql if validation else result.sql
             st.success("SQL validated (read-only SELECT)")
-            st.code(safe_sql, language="sql")
+            with st.expander("View SQL", expanded=True):
+                st.code(safe_sql, language="sql")
             if validation and validation.warnings:
                 for w in validation.warnings:
                     st.info(w)
+
     if result.warnings:
         for w in result.warnings:
             st.info(w)
     if result.error and result.status != "error":
         st.caption(f"Note: {result.error}")
 
+if query_result is not None:
+    st.subheader("Results")
+    if not query_result.ok:
+        st.error(query_result.error or "Query failed")
+    elif query_result.empty:
+        st.warning("Query returned no rows.")
+    else:
+        st.caption(
+            f"{query_result.row_count} rows · "
+            f"Snowflake {query_result.execution_time_ms:.0f} ms"
+        )
+        st.dataframe(query_result.dataframe, use_container_width=True)
+
 st.divider()
 st.markdown(
     """
 ### Pipeline progress
 
-1. ~~Suggested analytics / chat question~~ (partial — Phase 5 demo)  
-2. ~~`generate_sql()` with glossary + metadata~~ **Phase 5**  
-3. ~~`validate_sql()` — SELECT only~~ **Phase 6**  
-4. `execute_query()` — read-only Snowflake → **Phase 7**  
+1. ~~Suggested analytics / chat question~~ (partial)  
+2. ~~`generate_sql()`~~ **Phase 5**  
+3. ~~`validate_sql()`~~ **Phase 6**  
+4. ~~`execute_query()`~~ **Phase 7**  
 5. Auto visualization + business insight → **Phases 9–10**  
-6. Optional **View SQL**
+6. Full chat UI → **Phase 8**
 """
 )
