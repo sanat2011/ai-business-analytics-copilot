@@ -95,10 +95,19 @@ def run_analytics_question(
             warnings=list(gen.warnings),
         )
 
+    from src.snowflake_connection import get_session
+
+    session = None
+    try:
+        session = get_session()
+    except Exception:
+        session = None
+
     qres = execute_query(
         gen.sql,
         user_question=question,
         log_to_snowflake=False,  # pipeline logs once with visualization_type
+        session=session,
     )
     warnings = list(gen.warnings) + list(qres.warnings)
 
@@ -167,6 +176,7 @@ def run_analytics_question(
             row_count=qres.row_count,
             error=None,
             visualization_type=viz,
+            session=session,
         )
 
     return AnalyticsTurn(

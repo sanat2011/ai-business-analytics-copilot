@@ -12,6 +12,7 @@ No credentials are hard-coded. Prefer read-only role for app queries.
 from __future__ import annotations
 
 import os
+import threading
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATABASE = "ANALYTICS_AI_DB"
 DEFAULT_SCHEMA = "ANALYTICS"
 DEFAULT_ROLE = "ACCOUNTADMIN"  # switch to ANALYTICS_AI_READONLY after roles.sql
+
+# Snowpark allows only one active Session per process; creating another closes the last.
+_SESSION_LOCK = threading.Lock()
+_LOCAL_SESSION = None
 
 
 def _load_dotenv() -> None:
@@ -119,6 +124,7 @@ def _connector_params(cfg: dict[str, str]) -> dict[str, Any]:
         "warehouse": cfg["warehouse"],
         "database": cfg["database"],
         "schema": cfg["schema"],
+        "client_session_keep_alive": True,
     }
     if cfg.get("role"):
         params["role"] = cfg["role"]
@@ -139,18 +145,51 @@ def _connector_params(cfg: dict[str, str]) -> dict[str, Any]:
     return params
 
 
+def _is_session_alive(session) -> bool:
+    if session is None:
+        return False
+    try:
+        conn = getattr(session, "connection", None)
+        if conn is not None and getattr(conn, "is_closed", lambda: False)():
+            return False
+        session.sql("SELECT 1 AS OK").collect()
+        return True
+    except Exception:
+        return False
+
+
+def _create_local_session():
+    from snowflake.snowpark import Session
+
+    cfg = _config()
+    params = _connector_params(cfg)
+    return Session.builder.configs(params).create()
+
+
+def reset_local_session() -> None:
+    """Drop the cached local Snowpark session so the next call opens a new one."""
+    global _LOCAL_SESSION
+    with _SESSION_LOCK:
+        if _LOCAL_SESSION is not None:
+            try:
+                _LOCAL_SESSION.close()
+            except Exception:
+                pass
+            _LOCAL_SESSION = None
+
+
 def get_session():
     """
     Return a Snowpark Session.
 
     Inside Snowflake Streamlit: reuses the active session.
-    Locally: builds a session from env / secrets.
+    Local / Streamlit Cloud: reuse one process session (creating a second
+    Snowpark Session closes the first — error 1404).
     """
     if running_in_snowflake():
         from snowflake.snowpark.context import get_active_session
 
         session = get_active_session()
-        # Ensure analytical context when possible
         try:
             cfg = _config()
             if cfg.get("database"):
@@ -163,29 +202,26 @@ def get_session():
             pass
         return session
 
-    from snowflake.snowpark import Session
-
-    cfg = _config()
-    params = _connector_params(cfg)
-    return Session.builder.configs(params).create()
+    global _LOCAL_SESSION
+    with _SESSION_LOCK:
+        if _is_session_alive(_LOCAL_SESSION):
+            return _LOCAL_SESSION
+        if _LOCAL_SESSION is not None:
+            try:
+                _LOCAL_SESSION.close()
+            except Exception:
+                pass
+        _LOCAL_SESSION = _create_local_session()
+        return _LOCAL_SESSION
 
 
 def get_connection():
     """
-    Return a snowflake.connector connection (or session connection in SiS).
+    Return the connector connection backing the shared Snowpark session.
 
-    Prefer get_session() for Snowpark; use this for pandas cursor / write_pandas.
+    Do not close this connection — that would kill the shared session.
     """
-    if running_in_snowflake():
-        session = get_session()
-        # Snowpark Session exposes the underlying connector connection
-        return session.connection
-
-    import snowflake.connector
-
-    cfg = _config()
-    params = _connector_params(cfg)
-    return snowflake.connector.connect(**params)
+    return get_session().connection
 
 
 def run_query(sql: str):
@@ -247,3 +283,5 @@ def cached_healthcheck() -> dict[str, Any]:
 
 def clear_connection_cache() -> None:
     cached_healthcheck.cache_clear()
+    if not running_in_snowflake():
+        reset_local_session()

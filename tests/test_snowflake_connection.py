@@ -43,3 +43,4 @@ def test_connector_params_externalbrowser():
     )
     assert params["authenticator"] == "externalbrowser"
     assert "password" not in params
+    assert params.get("client_session_keep_alive") is True

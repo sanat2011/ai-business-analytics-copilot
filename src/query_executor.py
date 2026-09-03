@@ -143,12 +143,24 @@ def execute_query(
         return result
 
 
-def _run_sql(sql: str, session: Any | None = None) -> pd.DataFrame:
-    if session is None:
-        from src.snowflake_connection import get_session
+def _session_closed(exc: Exception) -> bool:
+    text = str(exc).lower()
+    return "session has been closed" in text or "(1404)" in text or " 1404" in text
 
+
+def _run_sql(sql: str, session: Any | None = None) -> pd.DataFrame:
+    from src.snowflake_connection import get_session, reset_local_session
+
+    if session is None:
         session = get_session()
-    return session.sql(sql).to_pandas()
+    try:
+        return session.sql(sql).to_pandas()
+    except Exception as exc:
+        if _session_closed(exc):
+            reset_local_session()
+            session = get_session()
+            return session.sql(sql).to_pandas()
+        raise
 
 
 def _friendly_error(exc: Exception) -> str:
@@ -156,6 +168,11 @@ def _friendly_error(exc: Exception) -> str:
     lower = text.lower()
     if "timeout" in lower or "timed out" in lower:
         return "Snowflake query timed out. Try a narrower question or a smaller warehouse."
+    if "session has been closed" in lower or "(1404)" in text:
+        return (
+            "Snowflake session expired. Click Refresh connection in the sidebar, "
+            "then run the question again."
+        )
     if "incorrect username or password" in lower:
         return "Snowflake authentication failed. Check credentials or use Streamlit-in-Snowflake."
     if "does not exist" in lower or "object does not exist" in lower:

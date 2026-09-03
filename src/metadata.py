@@ -45,35 +45,29 @@ def get_relationships() -> list[dict[str, Any]]:
 
 def _fetch_all(sql: str) -> list[dict[str, Any]]:
     try:
-        from snowflake_connection import get_connection
-    except ImportError:
-        import sys
-        from pathlib import Path
-
-        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from src.snowflake_connection import get_session
+    except Exception:
         try:
-            from snowflake_connection import get_connection  # type: ignore
+            from snowflake_connection import get_session  # type: ignore
         except Exception:
             return []
 
     try:
-        conn = get_connection()
+        session = get_session()
+        rows_raw = session.sql(sql).collect()
+        if not rows_raw:
+            return []
+        out = []
+        for row in rows_raw:
+            if hasattr(row, "as_dict"):
+                out.append(row.as_dict())
+            elif hasattr(row, "asDict"):
+                out.append(row.asDict())
+            else:
+                out.append(dict(row))
+        return out
     except Exception:
         return []
-
-    try:
-        cur = conn.cursor()
-        cur.execute(sql)
-        cols = [c[0] for c in cur.description]
-        rows = [dict(zip(cols, row)) for row in cur.fetchall()]
-        return rows
-    except Exception:
-        return []
-    finally:
-        try:
-            conn.close()
-        except Exception:
-            pass
 
 
 @lru_cache(maxsize=1)
