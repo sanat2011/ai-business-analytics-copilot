@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–7 complete**. Next: full Streamlit chat UI.
+> Status: **Phases 1–8 complete**. Next: charts / KPIs.
 
 ---
 
@@ -104,8 +104,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 5 | NL → SQL generation | **Done** |
 | 6 | SQL validation | **Done** |
 | 7 | Query execution | **Done** |
-| 8 | Streamlit UI | Next |
-| 9 | Charts / KPIs | Pending |
+| 8 | Streamlit UI | **Done** |
+| 9 | Charts / KPIs | Next |
 | 10 | AI insights | Pending |
 | 11 | Default / suggested analytics | Pending |
 | 12 | Conversation context | Pending |
@@ -198,6 +198,16 @@ DataFrame, and optionally logs to `ANALYTICS_AI_DB.AI.QUERY_LOG`.
 python -m pytest tests/test_query_executor.py -q
 streamlit run app.py   # use "Run on Snowflake"
 ```
+
+### Phase 8 — Streamlit chat UI
+
+```bash
+streamlit run app.py
+# or for Snowflake SiS main file: streamlit_app.py
+```
+
+Includes sidebar (connection, suggested analytics, clear conversation), main suggested
+analytics buttons, chat history with follow-up context, results table, and **View SQL**.
 
 ---
 

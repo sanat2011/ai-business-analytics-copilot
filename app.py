@@ -1,13 +1,14 @@
 """
-AI Business Analytics Copilot — Streamlit entry point.
+AI Business Analytics Copilot — Streamlit chat UI (Phase 8).
 
-Phases 4–7: connection, NL→SQL, validation, execution.
-Full chat UI arrives in Phase 8.
+Ask in natural language → SQL → validate → Snowflake → table results.
+Charts + AI insights arrive in Phases 9–10.
 """
 
 from __future__ import annotations
 
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import streamlit as st
@@ -20,192 +21,203 @@ st.set_page_config(
     page_title="AI Business Analytics Copilot",
     page_icon="📊",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
-st.title("AI Business Analytics Copilot")
-st.caption("Ask questions about your business data in natural language.")
+# ---------------------------------------------------------------------------
+# Session state
+# ---------------------------------------------------------------------------
+if "messages" not in st.session_state:
+    # Each item: {role, content, turn?}
+    st.session_state.messages = []
+if "pending_question" not in st.session_state:
+    st.session_state.pending_question = None
+
+
+def _conversation_context() -> list[dict]:
+    """Prior successful turns for follow-up resolution (e.g. 'their profit')."""
+    ctx = []
+    for msg in st.session_state.messages:
+        if msg.get("role") != "assistant":
+            continue
+        turn = msg.get("turn")
+        if not turn or not turn.get("sql"):
+            continue
+        ctx.append(
+            {
+                "question": turn.get("question"),
+                "user_question": turn.get("question"),
+                "sql": turn.get("sql"),
+                "generated_sql": turn.get("sql"),
+                "result_summary": turn.get("result_summary") or "",
+            }
+        )
+    return ctx[-4:]
+
+
+def _run_question(question: str, provider: str) -> None:
+    from src.analytics_pipeline import run_analytics_question, turn_to_history_entry
+
+    st.session_state.messages.append({"role": "user", "content": question})
+    with st.spinner("Analyzing with Snowflake…"):
+        turn = run_analytics_question(
+            question,
+            conversation_context=_conversation_context(),
+            provider=provider,
+            log_to_snowflake=True,
+        )
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": turn.message,
+            "turn": turn_to_history_entry(turn),
+            "dataframe": turn.dataframe,
+        }
+    )
+
 
 # ---------------------------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------------------------
 with st.sidebar:
-    st.header("AI Business Analytics Copilot")
-    st.caption("Data source: Snowflake · Superstore retail")
+    st.title("AI Business Analytics Copilot")
+    st.caption("Snowflake · Superstore retail analytics")
     st.divider()
-    st.subheader("Connection")
-    if st.button("Test Snowflake connection", use_container_width=True):
-        st.session_state.pop("_sf_health", None)
+
+    st.subheader("Data source")
+    st.write("CRM · ERP · Product Master → `ANALYTICS_AI_DB`")
 
     try:
         from src.snowflake_connection import clear_connection_cache, healthcheck
 
+        if st.button("Refresh connection", use_container_width=True):
+            clear_connection_cache()
+            st.session_state.pop("_sf_health", None)
         if "_sf_health" not in st.session_state:
-            with st.spinner("Connecting to Snowflake…"):
-                clear_connection_cache()
-                st.session_state["_sf_health"] = healthcheck()
+            st.session_state["_sf_health"] = healthcheck()
         health = st.session_state["_sf_health"]
         if health.get("ok"):
             st.success(f"Connected ({health.get('mode')})")
-            st.write(
-                {
-                    "database": health.get("database"),
-                    "schema": health.get("schema"),
-                    "warehouse": health.get("warehouse"),
-                    "role": health.get("role"),
-                    "sales_rows": health.get("sales_rows"),
-                }
+            st.caption(
+                f"{health.get('database')}.{health.get('schema')} · "
+                f"{health.get('warehouse')} · {health.get('sales_rows', '—')} sales rows"
             )
         else:
-            st.error("Not connected")
-            st.caption(health.get("error") or "Unknown error")
+            st.warning("Snowflake not connected")
+            st.caption(health.get("error") or "")
     except Exception as exc:
-        st.error("Connection module failed")
-        st.caption(str(exc))
+        st.error(str(exc))
 
     st.divider()
-    st.subheader("SQL provider")
+    st.subheader("Available analytics")
+    from src.metadata import get_sample_questions
+
+    samples = get_sample_questions()
+    by_cat: dict[str, list] = defaultdict(list)
+    for row in samples:
+        by_cat[row.get("CATEGORY") or "Other"].append(row.get("QUESTION") or "")
+
+    for category, questions in by_cat.items():
+        with st.expander(category, expanded=(category == "Revenue")):
+            for q in questions:
+                if st.button(q, key=f"side_{category}_{q}", use_container_width=True):
+                    st.session_state.pending_question = q
+
+    st.divider()
     provider = st.selectbox(
-        "NL→SQL engine",
+        "SQL engine",
         options=["heuristic", "snowflake_cortex", "openai", "auto"],
         index=0,
-        help="heuristic works offline; cortex uses Snowflake Cortex COMPLETE",
+        help="Use heuristic locally; snowflake_cortex inside Snowflake Streamlit",
     )
+
+    if st.button("Clear conversation", use_container_width=True):
+        st.session_state.messages = []
+        st.session_state.pending_question = None
+        st.rerun()
+
     st.divider()
     st.subheader("About")
-    st.caption("Phases 1–7 ready. Next: full chat UI + charts + insights.")
-
-# ---------------------------------------------------------------------------
-# Main — generate → validate → execute
-# ---------------------------------------------------------------------------
-st.subheader("Ask a question")
-question = st.text_input(
-    "Business question",
-    placeholder="What are the top 10 products by revenue?",
-    label_visibility="collapsed",
-)
-
-examples = [
-    "What is total revenue?",
-    "Show revenue by region",
-    "What are the top 10 products by revenue?",
-    "Which products have negative profit?",
-    "What is average order value?",
-]
-cols = st.columns(len(examples))
-for col, example in zip(cols, examples):
-    if col.button(example, use_container_width=True):
-        st.session_state["_demo_q"] = example
-        question = example
-
-if st.session_state.get("_demo_q") and not question:
-    question = st.session_state["_demo_q"]
-
-run_cols = st.columns([1, 1, 2])
-generate_clicked = run_cols[0].button("Generate SQL", type="primary")
-run_clicked = run_cols[1].button("Run on Snowflake")
-
-if generate_clicked and question:
-    from src.sql_generator import generate_sql_detailed
-    from src.sql_validator import validate_sql_detailed
-
-    with st.spinner("Generating SQL…"):
-        result = generate_sql_detailed(question, provider=provider)
-    st.session_state["_last_sql_result"] = result
-    st.session_state["_last_question"] = question
-    st.session_state.pop("_last_query_result", None)
-    if result.status == "ok":
-        st.session_state["_last_validation"] = validate_sql_detailed(result.sql)
-    else:
-        st.session_state["_last_validation"] = None
-
-if run_clicked:
-    from src.query_executor import execute_query
-    from src.sql_generator import generate_sql_detailed
-    from src.sql_validator import validate_sql_detailed
-
-    q = question or st.session_state.get("_last_question")
-    if not q:
-        st.warning("Enter a question first.")
-    else:
-        with st.spinner("Generating, validating, and running on Snowflake…"):
-            gen = generate_sql_detailed(q, provider=provider)
-            st.session_state["_last_sql_result"] = gen
-            st.session_state["_last_question"] = q
-            if gen.status != "ok":
-                st.session_state["_last_validation"] = None
-                st.session_state["_last_query_result"] = None
-            else:
-                val = validate_sql_detailed(gen.sql)
-                st.session_state["_last_validation"] = val
-                if val.ok:
-                    st.session_state["_last_query_result"] = execute_query(
-                        val.sql,
-                        user_question=q,
-                        skip_validation=True,  # already validated
-                    )
-                else:
-                    st.session_state["_last_query_result"] = None
-
-result = st.session_state.get("_last_sql_result")
-validation = st.session_state.get("_last_validation")
-query_result = st.session_state.get("_last_query_result")
-
-if result:
-    st.markdown(f"**Question:** {st.session_state.get('_last_question', '')}")
     st.caption(
-        f"provider={result.provider} · status={result.status} · "
-        f"{result.latency_ms:.0f} ms"
+        "Natural language → validated read-only SQL → Snowflake. "
+        "Phases 1–8 complete. Charts & insights coming next."
     )
-    if result.status == "insufficient_data":
-        st.warning(
-            "I cannot answer this from the current Snowflake dataset "
-            "(missing tables/metrics for this question)."
-        )
-    elif result.status == "error":
-        st.error(result.error or "SQL generation failed")
-    else:
-        if validation and not validation.ok:
-            st.error(validation.error or "SQL failed safety validation")
-            with st.expander("Rejected SQL"):
-                st.code(result.sql, language="sql")
-        else:
-            safe_sql = validation.sql if validation else result.sql
-            st.success("SQL validated (read-only SELECT)")
-            with st.expander("View SQL", expanded=True):
-                st.code(safe_sql, language="sql")
-            if validation and validation.warnings:
-                for w in validation.warnings:
-                    st.info(w)
 
-    if result.warnings:
-        for w in result.warnings:
-            st.info(w)
-    if result.error and result.status != "error":
-        st.caption(f"Note: {result.error}")
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+st.title("AI Business Analytics Copilot")
+st.caption("Ask questions about your business data in natural language.")
 
-if query_result is not None:
-    st.subheader("Results")
-    if not query_result.ok:
-        st.error(query_result.error or "Query failed")
-    elif query_result.empty:
-        st.warning("Query returned no rows.")
-    else:
-        st.caption(
-            f"{query_result.row_count} rows · "
-            f"Snowflake {query_result.execution_time_ms:.0f} ms"
-        )
-        st.dataframe(query_result.dataframe, use_container_width=True)
+# Suggested analytics (main page)
+st.markdown("### Suggested Analytics")
+main_suggestions = [
+    ("Revenue", "What is total revenue?"),
+    ("Trend", "Show monthly revenue trend"),
+    ("Region", "Show revenue by region"),
+    ("Category", "Show revenue by category"),
+    ("Top products", "What are the top 10 products by revenue?"),
+    ("Profit", "What are the top 10 products by profit?"),
+    ("Losses", "Which products have negative profit?"),
+    ("Customers", "Who are the top 10 customers by revenue?"),
+    ("Segment", "Show revenue by customer segment"),
+    ("Margin", "Show profit margin by category"),
+]
+sug_cols = st.columns(5)
+for i, (label, q) in enumerate(main_suggestions):
+    if sug_cols[i % 5].button(label, key=f"sug_{i}", help=q, use_container_width=True):
+        st.session_state.pending_question = q
 
 st.divider()
-st.markdown(
-    """
-### Pipeline progress
+st.markdown("### Chat")
 
-1. ~~Suggested analytics / chat question~~ (partial)  
-2. ~~`generate_sql()`~~ **Phase 5**  
-3. ~~`validate_sql()`~~ **Phase 6**  
-4. ~~`execute_query()`~~ **Phase 7**  
-5. Auto visualization + business insight → **Phases 9–10**  
-6. Full chat UI → **Phase 8**
-"""
-)
+# Render history
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        if msg["role"] == "user":
+            st.markdown(msg["content"])
+        else:
+            turn = msg.get("turn") or {}
+            status = turn.get("status")
+            if status == "success":
+                st.markdown(msg["content"])
+                df = msg.get("dataframe")
+                if df is not None and not df.empty:
+                    # Single-number KPI-style highlight (full charts in Phase 9)
+                    if df.shape == (1, 1):
+                        col = df.columns[0]
+                        st.metric(label=str(col), value=f"{df.iloc[0, 0]:,}")
+                    st.dataframe(df, use_container_width=True)
+                if turn.get("sql"):
+                    with st.expander("View SQL"):
+                        st.code(turn["sql"], language="sql")
+                        st.caption(
+                            f"provider={turn.get('provider')} · "
+                            f"gen {turn.get('generation_ms', 0):.0f} ms · "
+                            f"Snowflake {turn.get('execution_ms', 0):.0f} ms"
+                        )
+            elif status == "empty":
+                st.info(msg["content"])
+                if turn.get("sql"):
+                    with st.expander("View SQL"):
+                        st.code(turn["sql"], language="sql")
+            else:
+                st.error(msg["content"])
+                if turn.get("sql"):
+                    with st.expander("View SQL"):
+                        st.code(turn["sql"], language="sql")
+            for w in turn.get("warnings") or []:
+                st.caption(w)
+
+# Handle pending suggestion click
+if st.session_state.pending_question:
+    q = st.session_state.pending_question
+    st.session_state.pending_question = None
+    _run_question(q, provider)
+    st.rerun()
+
+# Chat input
+prompt = st.chat_input("Ask about sales, profit, products, regions…")
+if prompt:
+    _run_question(prompt, provider)
+    st.rerun()
