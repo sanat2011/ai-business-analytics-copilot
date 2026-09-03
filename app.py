@@ -140,7 +140,7 @@ with st.sidebar:
     st.subheader("About")
     st.caption(
         "Natural language → validated read-only SQL → Snowflake. "
-        "Phases 1–9 complete. AI insights coming next."
+        "Phases 1–10 complete. Default analytics polish + tests next."
     )
 
 # ---------------------------------------------------------------------------
@@ -199,13 +199,18 @@ for msg in st.session_state.messages:
                         title=turn_q,
                         key=f"viz_{id(msg)}",
                     )
+                if turn.get("insight"):
+                    st.markdown("### Business Insight")
+                    st.write(turn["insight"])
+                    st.caption(f"insight provider={turn.get('insight_provider')}")
                 if turn.get("sql"):
                     with st.expander("View SQL"):
                         st.code(turn["sql"], language="sql")
                         st.caption(
                             f"provider={turn.get('provider')} · "
                             f"gen {turn.get('generation_ms', 0):.0f} ms · "
-                            f"Snowflake {turn.get('execution_ms', 0):.0f} ms"
+                            f"Snowflake {turn.get('execution_ms', 0):.0f} ms · "
+                            f"insight {turn.get('insight_ms', 0):.0f} ms"
                         )
             elif status == "empty":
                 st.info(msg["content"])

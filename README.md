@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–9 complete**. Next: AI business insights.
+> Status: **Phases 1–10 complete**. Next: default analytics polish + broader tests.
 
 ---
 
@@ -106,7 +106,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 7 | Query execution | **Done** |
 | 8 | Streamlit UI | **Done** |
 | 9 | Charts / KPIs | **Done** |
-| 10 | AI insights | Next |
+| 10 | AI insights | **Done** |
+| 11 | Default / suggested analytics | Next |
 | 10 | AI insights | Pending |
 | 11 | Default / suggested analytics | Pending |
 | 12 | Conversation context | Pending |
@@ -214,6 +215,11 @@ analytics buttons, chat history with follow-up context, results table, and **Vie
 
 `choose_visualization(df, question)` picks `kpi` / `line` / `bar` / `pie` / `table`.
 `render_visualization(...)` draws Plotly charts or Streamlit metrics in the chat UI.
+
+### Phase 10 — business insights
+
+`generate_insight(question, dataframe)` writes 2–4 sentences using only result values
+(Cortex / OpenAI / heuristic). Shown in chat under **Business Insight**.
 
 ---
 

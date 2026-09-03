@@ -11,6 +11,7 @@ from typing import Any
 
 import pandas as pd
 
+from src.insight_generator import generate_insight_detailed
 from src.query_executor import execute_query
 from src.sql_generator import generate_sql_detailed
 
@@ -24,9 +25,12 @@ class AnalyticsTurn:
     provider: str = ""
     generation_ms: float = 0.0
     execution_ms: float = 0.0
+    insight_ms: float = 0.0
     row_count: int = 0
     dataframe: pd.DataFrame | None = None
     result_summary: str = ""
+    insight: str = ""
+    insight_provider: str = ""
     warnings: list[str] = field(default_factory=list)
     error: str | None = None
     status: str = ""  # insufficient_data | validation_failed | execution_failed | success | empty
@@ -39,6 +43,7 @@ class AnalyticsTurn:
             "sql": self.sql,
             "generated_sql": self.sql,
             "result_summary": self.result_summary,
+            "insight": self.insight,
         }
 
 
@@ -131,11 +136,21 @@ def run_analytics_question(
             row_count=0,
             dataframe=qres.dataframe,
             result_summary="empty result",
+            insight="There is insufficient information in the result to form a business insight.",
+            insight_provider="policy",
             status="empty",
             warnings=warnings,
         )
 
     summary = qres.summary(max_rows=5)
+    insight = generate_insight_detailed(
+        question,
+        qres.dataframe,
+        provider=provider,
+    )
+    if insight.error:
+        warnings.append(insight.error)
+
     return AnalyticsTurn(
         question=question,
         ok=True,
@@ -144,9 +159,12 @@ def run_analytics_question(
         provider=gen.provider,
         generation_ms=gen.latency_ms,
         execution_ms=qres.execution_time_ms,
+        insight_ms=insight.latency_ms,
         row_count=qres.row_count,
         dataframe=qres.dataframe,
         result_summary=summary,
+        insight=insight.text,
+        insight_provider=insight.provider,
         status="success",
         warnings=warnings,
     )

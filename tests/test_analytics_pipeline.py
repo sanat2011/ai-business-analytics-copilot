@@ -45,7 +45,7 @@ def test_success_path(monkeypatch):
         "execute_query",
         lambda *a, **k: QueryResult(
             ok=True,
-            sql=k.get("sql") if False else a[0],
+            sql=a[0],
             dataframe=pd.DataFrame({"TOTAL_REVENUE": [4201961.0]}),
             row_count=1,
             execution_time_ms=10.0,
@@ -56,5 +56,7 @@ def test_success_path(monkeypatch):
     assert turn.status == "success"
     assert turn.row_count == 1
     assert turn.dataframe is not None
+    assert turn.insight
+    assert "4201961" in turn.insight.replace(",", "")
     ctx = turn.context_blob()
     assert "TOTAL_REVENUE" in ctx["sql"] or "SALES" in ctx["sql"]
