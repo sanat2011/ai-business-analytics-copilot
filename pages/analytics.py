@@ -1,4 +1,4 @@
-"""Suggested analytics page — same questions as the main Copilot chat."""
+"""Suggested analytics page — same 12 defaults as the main Copilot."""
 
 from __future__ import annotations
 
@@ -12,17 +12,23 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 st.title("Suggested Analytics")
-st.caption("Click a question, then open the main Copilot page — or use the sidebar there.")
+st.caption("Every suggestion uses the same NL → SQL → Snowflake pipeline.")
 
-from src.metadata import get_sample_questions
+from src.default_analytics import get_default_analytics_by_category
 
 if "pending_question" not in st.session_state:
     st.session_state.pending_question = None
 
-samples = get_sample_questions()
-for row in samples:
-    q = row.get("QUESTION") or ""
-    cat = row.get("CATEGORY") or ""
-    if st.button(f"[{cat}] {q}", key=f"page_{q}", use_container_width=True):
-        st.session_state.pending_question = q
-        st.success(f"Queued: {q}. Open **AI Business Analytics Copilot** (home) to run it.")
+for category, items in get_default_analytics_by_category().items():
+    st.subheader(category)
+    for item in items:
+        if st.button(
+            item["label"],
+            key=f"page_{item['id']}",
+            help=item["question"],
+            use_container_width=True,
+        ):
+            st.session_state.pending_question = item["question"]
+            st.success(
+                f"Queued: {item['question']}. Open the home Copilot page to run it."
+            )

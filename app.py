@@ -1,14 +1,12 @@
 """
-AI Business Analytics Copilot — Streamlit chat UI (Phase 8).
+AI Business Analytics Copilot — Streamlit chat UI.
 
-Ask in natural language → SQL → validate → Snowflake → table results.
-Charts + AI insights arrive in Phases 9–10.
+Phases 8–12: chat, charts, insights, suggested analytics, conversation context.
 """
 
 from __future__ import annotations
 
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 import streamlit as st
@@ -28,31 +26,15 @@ st.set_page_config(
 # Session state
 # ---------------------------------------------------------------------------
 if "messages" not in st.session_state:
-    # Each item: {role, content, turn?}
     st.session_state.messages = []
 if "pending_question" not in st.session_state:
     st.session_state.pending_question = None
 
 
 def _conversation_context() -> list[dict]:
-    """Prior successful turns for follow-up resolution (e.g. 'their profit')."""
-    ctx = []
-    for msg in st.session_state.messages:
-        if msg.get("role") != "assistant":
-            continue
-        turn = msg.get("turn")
-        if not turn or not turn.get("sql"):
-            continue
-        ctx.append(
-            {
-                "question": turn.get("question"),
-                "user_question": turn.get("question"),
-                "sql": turn.get("sql"),
-                "generated_sql": turn.get("sql"),
-                "result_summary": turn.get("result_summary") or "",
-            }
-        )
-    return ctx[-4:]
+    from src.conversation import build_conversation_context
+
+    return build_conversation_context(st.session_state.messages, limit=4)
 
 
 def _run_question(question: str, provider: str) -> None:
@@ -110,18 +92,18 @@ with st.sidebar:
 
     st.divider()
     st.subheader("Available analytics")
-    from src.metadata import get_sample_questions
+    from src.default_analytics import get_default_analytics_by_category
 
-    samples = get_sample_questions()
-    by_cat: dict[str, list] = defaultdict(list)
-    for row in samples:
-        by_cat[row.get("CATEGORY") or "Other"].append(row.get("QUESTION") or "")
-
-    for category, questions in by_cat.items():
+    for category, items in get_default_analytics_by_category().items():
         with st.expander(category, expanded=(category == "Revenue")):
-            for q in questions:
-                if st.button(q, key=f"side_{category}_{q}", use_container_width=True):
-                    st.session_state.pending_question = q
+            for item in items:
+                if st.button(
+                    item["label"],
+                    key=f"side_{item['id']}",
+                    use_container_width=True,
+                    help=item["question"],
+                ):
+                    st.session_state.pending_question = item["question"]
 
     st.divider()
     provider = st.selectbox(
@@ -140,7 +122,7 @@ with st.sidebar:
     st.subheader("About")
     st.caption(
         "Natural language → validated read-only SQL → Snowflake. "
-        "Phases 1–10 complete. Default analytics polish + tests next."
+        "Phases 1–12 complete. Broader test pack next."
     )
 
 # ---------------------------------------------------------------------------
@@ -149,29 +131,24 @@ with st.sidebar:
 st.title("AI Business Analytics Copilot")
 st.caption("Ask questions about your business data in natural language.")
 
-# Suggested analytics (main page)
 st.markdown("### Suggested Analytics")
-main_suggestions = [
-    ("Revenue", "What is total revenue?"),
-    ("Trend", "Show monthly revenue trend"),
-    ("Region", "Show revenue by region"),
-    ("Category", "Show revenue by category"),
-    ("Top products", "What are the top 10 products by revenue?"),
-    ("Profit", "What are the top 10 products by profit?"),
-    ("Losses", "Which products have negative profit?"),
-    ("Customers", "Who are the top 10 customers by revenue?"),
-    ("Segment", "Show revenue by customer segment"),
-    ("Margin", "Show profit margin by category"),
-]
-sug_cols = st.columns(5)
-for i, (label, q) in enumerate(main_suggestions):
-    if sug_cols[i % 5].button(label, key=f"sug_{i}", help=q, use_container_width=True):
-        st.session_state.pending_question = q
+from src.default_analytics import get_default_analytics_by_category as _grouped
+
+for category, items in _grouped().items():
+    st.markdown(f"**{category}**")
+    cols = st.columns(min(4, len(items)))
+    for i, item in enumerate(items):
+        if cols[i % len(cols)].button(
+            item["label"],
+            key=f"main_{item['id']}",
+            help=item["question"],
+            use_container_width=True,
+        ):
+            st.session_state.pending_question = item["question"]
 
 st.divider()
 st.markdown("### Chat")
 
-# Render history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         if msg["role"] == "user":
@@ -225,14 +202,12 @@ for msg in st.session_state.messages:
             for w in turn.get("warnings") or []:
                 st.caption(w)
 
-# Handle pending suggestion click
 if st.session_state.pending_question:
     q = st.session_state.pending_question
     st.session_state.pending_question = None
     _run_question(q, provider)
     st.rerun()
 
-# Chat input
 prompt = st.chat_input("Ask about sales, profit, products, regions…")
 if prompt:
     _run_question(prompt, provider)

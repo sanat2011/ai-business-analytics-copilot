@@ -172,20 +172,104 @@ def heuristic_sql(
     customers = "ANALYTICS_AI_DB.ANALYTICS.CUSTOMER_ANALYTICS"
     products = "ANALYTICS_AI_DB.ANALYTICS.PRODUCT_ANALYTICS"
 
-    # Follow-up: "their profit" after top products
-    if conversation_context and re.search(r"\b(their|those|these)\b", q) and "profit" in q:
+    # Follow-ups referring to prior ranked entities ("their profit", "now show sales")
+    if conversation_context:
+        from src.conversation import resolve_follow_up_entity
+
+        entity = resolve_follow_up_entity(user_question, conversation_context)
         prev = conversation_context[-1]
         prev_q = (prev.get("question") or prev.get("user_question") or "").lower()
-        if "product" in prev_q:
-            return f"""
+        wants_profit = "profit" in q and "margin" not in q
+        wants_sales = any(w in q for w in ("sales", "revenue")) and "profit" not in q
+        wants_qty = "quantity" in q or "units" in q
+        refers = bool(re.search(r"\b(their|those|these|them|same|previous)\b", q)) or bool(
+            re.match(r"^(now |and |also |what about |how about )", q)
+        )
+
+        if entity == "products" or ("product" in prev_q and refers):
+            if wants_profit:
+                return f"""
+SELECT PRODUCT_ID, PRODUCT_NAME, TOTAL_SALES, TOTAL_PROFIT
+FROM {products}
+ORDER BY TOTAL_SALES DESC
+LIMIT 10
+""".strip()
+            if wants_qty:
+                return f"""
+SELECT PRODUCT_ID, PRODUCT_NAME, TOTAL_QUANTITY, TOTAL_SALES
+FROM {products}
+ORDER BY TOTAL_SALES DESC
+LIMIT 10
+""".strip()
+            if wants_sales or refers:
+                return f"""
 SELECT PRODUCT_ID, PRODUCT_NAME, TOTAL_SALES, TOTAL_PROFIT
 FROM {products}
 ORDER BY TOTAL_SALES DESC
 LIMIT 10
 """.strip()
 
+        if entity == "customers" or ("customer" in prev_q and refers):
+            if wants_profit:
+                return f"""
+SELECT CUSTOMER_ID, CUSTOMER_NAME, TOTAL_SALES, TOTAL_PROFIT
+FROM {customers}
+ORDER BY TOTAL_SALES DESC
+LIMIT 10
+""".strip()
+            return f"""
+SELECT CUSTOMER_ID, CUSTOMER_NAME, TOTAL_SALES, TOTAL_PROFIT
+FROM {customers}
+ORDER BY TOTAL_SALES DESC
+LIMIT 10
+""".strip()
+
+        if entity == "regions" or ("region" in prev_q and refers):
+            metric = "PROFIT" if wants_profit else "SALES"
+            alias = "TOTAL_PROFIT" if wants_profit else "TOTAL_REVENUE"
+            return f"""
+SELECT REGION, SUM({metric}) AS {alias}
+FROM {sales}
+GROUP BY REGION
+ORDER BY {alias} DESC
+""".strip()
+
+        if entity == "categories" or ("categor" in prev_q and refers):
+            if "margin" in q:
+                return f"""
+SELECT CATEGORY,
+       SUM(PROFIT) / NULLIF(SUM(SALES), 0) AS PROFIT_MARGIN
+FROM {sales}
+GROUP BY CATEGORY
+ORDER BY PROFIT_MARGIN DESC
+""".strip()
+            metric = "PROFIT" if wants_profit else "SALES"
+            alias = "TOTAL_PROFIT" if wants_profit else "TOTAL_REVENUE"
+            return f"""
+SELECT CATEGORY, SUM({metric}) AS {alias}
+FROM {sales}
+GROUP BY CATEGORY
+ORDER BY {alias} DESC
+""".strip()
+
     if _question_unsupported(user_question):
         return INSUFFICIENT
+
+    # Monthly sales growth (Phase 11 default analytic)
+    if "growth" in q and ("monthly" in q or "month" in q) and (
+        "sales" in q or "revenue" in q
+    ):
+        return f"""
+SELECT
+  ORDER_MONTH,
+  SUM(SALES) AS REVENUE,
+  LAG(SUM(SALES)) OVER (ORDER BY ORDER_MONTH) AS PRIOR_REVENUE,
+  (SUM(SALES) - LAG(SUM(SALES)) OVER (ORDER BY ORDER_MONTH))
+    / NULLIF(LAG(SUM(SALES)) OVER (ORDER BY ORDER_MONTH), 0) AS MOM_GROWTH
+FROM {sales}
+GROUP BY ORDER_MONTH
+ORDER BY ORDER_MONTH
+""".strip()
 
     if re.search(r"average order value|\baov\b", q):
         return f"""

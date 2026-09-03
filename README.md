@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–10 complete**. Next: default analytics polish + broader tests.
+> Status: **Phases 1–12 complete**. Next: 25-question test pack + logging polish.
 
 ---
 
@@ -107,11 +107,9 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 8 | Streamlit UI | **Done** |
 | 9 | Charts / KPIs | **Done** |
 | 10 | AI insights | **Done** |
-| 11 | Default / suggested analytics | Next |
-| 10 | AI insights | Pending |
-| 11 | Default / suggested analytics | Pending |
-| 12 | Conversation context | Pending |
-| 13 | Logging + tests (25+ questions) | Pending |
+| 11 | Default / suggested analytics | **Done** |
+| 12 | Conversation context | **Done** |
+| 13 | Logging + tests (25+ questions) | Next |
 | 14 | Deploy Streamlit in Snowflake | Pending |
 
 ---
@@ -220,6 +218,16 @@ analytics buttons, chat history with follow-up context, results table, and **Vie
 
 `generate_insight(question, dataframe)` writes 2–4 sentences using only result values
 (Cortex / OpenAI / heuristic). Shown in chat under **Business Insight**.
+
+### Phase 11 — suggested analytics
+
+Twelve clickable defaults (Revenue / Products / Customers / Performance) in
+`src/default_analytics.py`. Each runs through the same NL→SQL pipeline.
+
+### Phase 12 — conversation context
+
+Follow-ups like “Now show their profit.” reuse the last turn’s entity
+(products / customers / regions / categories) via `src/conversation.py`.
 
 ---
 
