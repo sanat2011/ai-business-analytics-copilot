@@ -103,9 +103,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 4 | Snowflake connection (local + SiS) | **Done** |
 | 5 | NL → SQL generation | **Done** |
 | 6 | SQL validation | **Done** |
-| 7 | Query execution | Next |
-| 7 | Query execution | Pending |
-| 8 | Streamlit UI | Pending |
+| 7 | Query execution | **Done** |
+| 8 | Streamlit UI | Next |
 | 9 | Charts / KPIs | Pending |
 | 10 | AI insights | Pending |
 | 11 | Default / suggested analytics | Pending |
