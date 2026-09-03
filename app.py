@@ -140,7 +140,7 @@ with st.sidebar:
     st.subheader("About")
     st.caption(
         "Natural language → validated read-only SQL → Snowflake. "
-        "Phases 1–8 complete. Charts & insights coming next."
+        "Phases 1–9 complete. AI insights coming next."
     )
 
 # ---------------------------------------------------------------------------
@@ -182,12 +182,23 @@ for msg in st.session_state.messages:
             if status == "success":
                 st.markdown(msg["content"])
                 df = msg.get("dataframe")
+                turn_q = turn.get("question") or ""
                 if df is not None and not df.empty:
-                    # Single-number KPI-style highlight (full charts in Phase 9)
-                    if df.shape == (1, 1):
-                        col = df.columns[0]
-                        st.metric(label=str(col), value=f"{df.iloc[0, 0]:,}")
-                    st.dataframe(df, use_container_width=True)
+                    from src.visualization import (
+                        choose_visualization,
+                        describe_visualization,
+                        render_visualization,
+                    )
+
+                    viz = choose_visualization(df, turn_q)
+                    st.caption(f"Visualization: {describe_visualization(viz)}")
+                    render_visualization(
+                        df,
+                        viz_type=viz,
+                        question=turn_q,
+                        title=turn_q,
+                        key=f"viz_{id(msg)}",
+                    )
                 if turn.get("sql"):
                     with st.expander("View SQL"):
                         st.code(turn["sql"], language="sql")
