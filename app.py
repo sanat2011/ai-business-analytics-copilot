@@ -1,7 +1,8 @@
 """
 AI Business Analytics Copilot — Streamlit entry point.
 
-Phase 4: Snowflake connection health (local + SiS).
+Phase 4: Snowflake connection health
+Phase 5: NL → SQL generation demo
 Full chat UI arrives in Phase 8.
 """
 
@@ -26,7 +27,7 @@ st.title("AI Business Analytics Copilot")
 st.caption("Ask questions about your business data in natural language.")
 
 # ---------------------------------------------------------------------------
-# Sidebar — connection status (Phase 4)
+# Sidebar
 # ---------------------------------------------------------------------------
 with st.sidebar:
     st.header("AI Business Analytics Copilot")
@@ -63,43 +64,83 @@ with st.sidebar:
         st.caption(str(exc))
 
     st.divider()
+    st.subheader("SQL provider")
+    provider = st.selectbox(
+        "NL→SQL engine",
+        options=["heuristic", "snowflake_cortex", "openai", "auto"],
+        index=0,
+        help="heuristic works offline; cortex uses Snowflake Cortex COMPLETE",
+    )
+    st.divider()
     st.subheader("About")
-    st.caption(
-        "Phases 1–3: data + marts + metadata. "
-        "Phase 4: connection. Phases 5–8: SQL → chat UI."
-    )
+    st.caption("Phases 1–5 ready. Next: SQL validation + execution + chat UI.")
 
 # ---------------------------------------------------------------------------
-# Main
+# Main — Phase 5 NL→SQL demo
 # ---------------------------------------------------------------------------
-health = st.session_state.get("_sf_health") or {}
-if health.get("ok"):
-    st.success(
-        f"Snowflake ready · "
-        f"{health.get('sales_rows', '—'):,} rows in ANALYTICS.SALES_ANALYTICS"
-        if health.get("sales_rows") is not None
-        else "Snowflake ready"
-    )
-else:
-    st.warning(
-        "Snowflake connection not verified yet. "
-        "Use the sidebar button, or check `.env` / Streamlit secrets / SiS session."
-    )
-
-st.info(
-    "Next up: Phase 5 (NL → SQL generation). "
-    "Suggested analytics and chat UI land in Phases 8–11."
+st.subheader("Ask a question")
+question = st.text_input(
+    "Business question",
+    placeholder="What are the top 10 products by revenue?",
+    label_visibility="collapsed",
 )
 
+examples = [
+    "What is total revenue?",
+    "Show revenue by region",
+    "What are the top 10 products by revenue?",
+    "Which products have negative profit?",
+    "What is average order value?",
+]
+cols = st.columns(len(examples))
+for col, example in zip(cols, examples):
+    if col.button(example, use_container_width=True):
+        st.session_state["_demo_q"] = example
+        question = example
+
+if st.session_state.get("_demo_q") and not question:
+    question = st.session_state["_demo_q"]
+
+if st.button("Generate SQL", type="primary") and question:
+    from src.sql_generator import generate_sql_detailed
+
+    with st.spinner("Generating SQL…"):
+        result = generate_sql_detailed(question, provider=provider)
+    st.session_state["_last_sql_result"] = result
+    st.session_state["_last_question"] = question
+
+result = st.session_state.get("_last_sql_result")
+if result:
+    st.markdown(f"**Question:** {st.session_state.get('_last_question', '')}")
+    st.caption(
+        f"provider={result.provider} · status={result.status} · "
+        f"{result.latency_ms:.0f} ms"
+    )
+    if result.status == "insufficient_data":
+        st.warning(
+            "I cannot answer this from the current Snowflake dataset "
+            "(missing tables/metrics for this question)."
+        )
+    elif result.status == "error":
+        st.error(result.error or "SQL generation failed")
+    else:
+        st.code(result.sql, language="sql")
+    if result.warnings:
+        for w in result.warnings:
+            st.info(w)
+    if result.error and result.status != "error":
+        st.caption(f"Note: {result.error}")
+
+st.divider()
 st.markdown(
     """
-### Pipeline
+### Pipeline progress
 
-1. Suggested analytics / chat question  
-2. `generate_sql()` with glossary + metadata  
-3. `validate_sql()` — SELECT only  
-4. `execute_query()` — read-only Snowflake  
-5. Auto visualization + business insight  
+1. ~~Suggested analytics / chat question~~ (partial — Phase 5 demo)  
+2. ~~`generate_sql()` with glossary + metadata~~ **Phase 5**  
+3. `validate_sql()` — SELECT only → **Phase 6**  
+4. `execute_query()` — read-only Snowflake → **Phase 7**  
+5. Auto visualization + business insight → **Phases 9–10**  
 6. Optional **View SQL**
 """
 )

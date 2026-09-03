@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–4 complete** (data, marts, metadata, Snowflake connection). Next: NL→SQL.
+> Status: **Phases 1–5 complete** (data, marts, metadata, connection, NL→SQL). Next: SQL validation.
 
 ---
 
@@ -101,8 +101,8 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 2 | Curated + analytics tables/views | **Done** |
 | 3 | Business glossary + semantic metadata | **Done** |
 | 4 | Snowflake connection (local + SiS) | **Done** |
-| 5 | NL → SQL generation | Next |
-| 6 | SQL validation | Pending |
+| 5 | NL → SQL generation | **Done** |
+| 6 | SQL validation | Next |
 | 7 | Query execution | Pending |
 | 8 | Streamlit UI | Pending |
 | 9 | Charts / KPIs | Pending |
@@ -163,6 +163,21 @@ streamlit run app.py
 - **Snowflake Streamlit (warehouse):** uses native `get_active_session()` — no password in the app
 - Entry files: `app.py` and `streamlit_app.py` (SiS often expects the latter)
 - Packages: `environment.yml` for SiS warehouse runtime
+
+### Phase 5 — NL → SQL
+
+```bash
+python scripts/test_sql_generation.py heuristic
+# optional: python scripts/test_sql_generation.py snowflake_cortex
+```
+
+`generate_sql(question, conversation_context, metadata)` uses:
+
+1. **Snowflake Cortex** (`SNOWFLAKE.CORTEX.COMPLETE`) when `LLM_PROVIDER=snowflake_cortex`
+2. **OpenAI** when `LLM_PROVIDER=openai` and `OPENAI_API_KEY` is set
+3. **Heuristic templates** as offline / fallback for common retail questions
+
+Unsupported topics (e.g. employee attrition) return `INSUFFICIENT_DATA`.
 
 ---
 

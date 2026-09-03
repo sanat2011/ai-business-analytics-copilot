@@ -1,5 +1,9 @@
 """LLM prompt templates (Phase 5 / 10)."""
 
+from __future__ import annotations
+
+from typing import Any
+
 SQL_SYSTEM_PROMPT = """You are an enterprise business analytics SQL assistant.
 
 Your job is to convert a user's natural-language business question into a valid Snowflake SELECT query.
@@ -28,8 +32,85 @@ Rules:
 19. For percentage calculations, clearly define the denominator.
 20. If the requested information cannot be answered from the provided metadata, return INSUFFICIENT_DATA.
 21. Return SQL only, without markdown formatting.
+22. Prefer fully qualified names: ANALYTICS_AI_DB.ANALYTICS.SALES_ANALYTICS (and sibling marts).
+23. Prefer ANALYTICS.SALES_ANALYTICS / CUSTOMER_ANALYTICS / PRODUCT_ANALYTICS over CURATED joins when possible.
+24. For revenue use SUM(SALES) or TOTAL_SALES; for profit use SUM(PROFIT) or TOTAL_PROFIT.
 """
 
 INSIGHT_SYSTEM_PROMPT = """You are a business analyst. Write 2–4 sentences of insight
 using ONLY numbers present in the provided result. Do not invent facts or predictions.
 """
+
+
+def build_sql_user_prompt(
+    user_question: str,
+    schema_metadata: str,
+    business_glossary: dict[str, str] | str,
+    relationships: list[dict[str, Any]] | str,
+    conversation_context: list[dict[str, Any]] | None = None,
+) -> str:
+    if isinstance(business_glossary, dict):
+        glossary_txt = "\n".join(f"- {k}: {v}" for k, v in business_glossary.items())
+    else:
+        glossary_txt = str(business_glossary)
+
+    if isinstance(relationships, list):
+        rel_lines = []
+        for rel in relationships:
+            if "note" in rel:
+                rel_lines.append(f"- NOTE: {rel['note']}")
+            else:
+                rel_lines.append(
+                    f"- {rel.get('from_table')}.{rel.get('from_column')} → "
+                    f"{rel.get('to_table')}.{rel.get('to_column')}"
+                )
+        relationships_txt = "\n".join(rel_lines)
+    else:
+        relationships_txt = str(relationships)
+
+    context_txt = "(none)"
+    if conversation_context:
+        bits = []
+        for turn in conversation_context[-4:]:
+            q = turn.get("question") or turn.get("user_question") or ""
+            sql = turn.get("sql") or turn.get("generated_sql") or ""
+            summary = turn.get("result_summary") or ""
+            bits.append(f"Q: {q}\nSQL: {sql}\nSummary: {summary}")
+        context_txt = "\n---\n".join(bits)
+
+    return f"""Business definitions:
+{glossary_txt}
+
+Database schema and metadata:
+{schema_metadata}
+
+Relationships:
+{relationships_txt}
+
+Conversation context (for follow-ups like "their"):
+{context_txt}
+
+User question:
+{user_question}
+
+Generate the safest valid Snowflake SELECT statement.
+Return SQL only, or INSUFFICIENT_DATA.
+"""
+
+
+def build_full_sql_prompt(
+    user_question: str,
+    schema_metadata: str,
+    business_glossary: dict[str, str] | str,
+    relationships: list[dict[str, Any]] | str,
+    conversation_context: list[dict[str, Any]] | None = None,
+) -> str:
+    """Single string prompt for providers that do not support chat roles (Cortex COMPLETE)."""
+    user = build_sql_user_prompt(
+        user_question,
+        schema_metadata,
+        business_glossary,
+        relationships,
+        conversation_context,
+    )
+    return f"{SQL_SYSTEM_PROMPT}\n\n{user}"
