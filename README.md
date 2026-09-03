@@ -4,7 +4,7 @@ Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **Phases 1–13 complete**. Next: Snowflake Streamlit deployment guide.
+> Status: **MVP complete (Phases 1–14)**. Deploy via Snowflake Streamlit + GitHub.
 
 ---
 
@@ -110,7 +110,7 @@ Relationships: `CUSTOMERS.customer_id ← ORDERS.customer_id`, `PRODUCTS.product
 | 11 | Default / suggested analytics | **Done** |
 | 12 | Conversation context | **Done** |
 | 13 | Logging + tests (25+ questions) | **Done** |
-| 14 | Deploy Streamlit in Snowflake | Next |
+| 14 | Deploy Streamlit in Snowflake | **Done** |
 
 ---
 
@@ -241,6 +241,18 @@ python scripts/run_question_tests.py --live   # also execute on Snowflake
 
 Successful chat turns log to `ANALYTICS_AI_DB.AI.QUERY_LOG` including `VISUALIZATION_TYPE`.
 
+### Phase 14 — Snowflake Streamlit deployment
+
+Full guide: **[docs/DEPLOY_SNOWFLAKE_STREAMLIT.md](docs/DEPLOY_SNOWFLAKE_STREAMLIT.md)**
+
+Summary:
+
+1. Create GitHub API integration + clone `sanat2011/ai-business-analytics-copilot`
+2. Create Streamlit app (**Warehouse** runtime) in `ANALYTICS_AI_DB.AI`
+3. Main file: `streamlit_app.py`
+4. Apply `sql/streamlit_grants.sql`
+5. Open app → click a suggested analytic → verify chart + insight + View SQL
+
 ---
 
 ## 7. Security (MVP)
@@ -254,13 +266,18 @@ Successful chat turns log to `ANALYTICS_AI_DB.AI.QUERY_LOG` including `VISUALIZA
 
 ## 8. Known limitations (MVP)
 
-- Chart auto-selection and LLM insights land in Phases 9–10.
-- Heuristic SQL covers common retail questions; Cortex/OpenAI improve coverage when enabled.
-- Demo data may be synthetic Superstore-schema if you used `--generate` instead of the Tableau file.
-- Local password auth is required outside Snowflake Streamlit; SiS uses the active session.
+- Heuristic SQL covers the curated retail questions; enable Cortex/OpenAI for broader NL coverage.
+- Follow-up resolution is entity-based (products/customers/regions/categories), not full multi-turn planning.
+- Demo data may be synthetic Superstore-schema if you used `--generate`.
+- Local runs need `.env` credentials; SiS uses the active Snowflake session (no password in the app).
+- Future agentic tool-calling (LangGraph, etc.) is intentionally out of scope for v1.
 
 ---
 
-## 9. Next step
+## 9. Future production enhancements
 
-**Phase 2:** transform `RAW` → typed `CURATED` entities and build `ANALYTICS` marts (`SALES_ANALYTICS`, `CUSTOMER_ANALYTICS`, `PRODUCT_ANALYTICS`).
+- Agentic tool loop: metadata → SQL → validate → query → viz → insight
+- Stronger semantic layer / certified metrics
+- Row-access policies and per-tenant warehouses
+- Cost / latency dashboards on `AI.QUERY_LOG`
+- Human-in-the-loop SQL approval for sensitive domains
