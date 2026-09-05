@@ -62,6 +62,13 @@ DEFAULT_ANALYTICS: list[dict[str, Any]] = [
         "question": "Which products have negative profit?",
         "sort_order": 7,
     },
+    {
+        "id": "all_products_catalog",
+        "category": "Products",
+        "label": "All Products Available",
+        "question": "Provide all products available",
+        "sort_order": 7.5,
+    },
     # Customers
     {
         "id": "top10_customers_revenue",

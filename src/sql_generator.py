@@ -311,6 +311,36 @@ ORDER BY TOTAL_PROFIT ASC
 LIMIT 50
 """.strip()
 
+    # Product catalog / list all products (before top-N product patterns)
+    if "product" in q and any(
+        phrase in q
+        for phrase in (
+            "all product",
+            "list product",
+            "list of product",
+            "products available",
+            "available product",
+            "product catalog",
+            "product catalogue",
+            "product list",
+            "show product",
+            "which product",
+            "what product",
+            "products do we have",
+            "products we sell",
+            "provide all product",
+            "give me all product",
+            "get all product",
+        )
+    ):
+        return f"""
+SELECT PRODUCT_ID, PRODUCT_NAME, CATEGORY, SUB_CATEGORY,
+       TOTAL_QUANTITY, TOTAL_SALES, TOTAL_PROFIT
+FROM {products}
+ORDER BY CATEGORY, PRODUCT_NAME
+LIMIT 500
+""".strip()
+
     if "top" in q and "customer" in q:
         return f"""
 SELECT CUSTOMER_ID, CUSTOMER_NAME, TOTAL_SALES, TOTAL_PROFIT

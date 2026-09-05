@@ -1,10 +1,21 @@
+---
+title: AI Business Analytics Copilot
+emoji: 📈
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8501
+pinned: false
+short_description: NL business analytics over Snowflake (SQL → charts → insights)
+---
+
 # AI Business Analytics Copilot
 
 Natural-language business analytics over Snowflake for a retail/sales use case.
 
 **Ask a question → generate SQL → validate → run read-only on Snowflake → chart + insight.**
 
-> Status: **MVP complete (Phases 1–14)**. Deploy via Snowflake Streamlit + GitHub.
+> Status: **MVP complete (Phases 1–14)**. Deploy via Snowflake Streamlit, Streamlit Cloud, or Hugging Face Spaces.
 
 **New developers / interview prep:** see **[docs/DEVELOPER_INTERVIEW_GUIDE.md](docs/DEVELOPER_INTERVIEW_GUIDE.md)** — file map, function deep-dives, and Q&A.
 

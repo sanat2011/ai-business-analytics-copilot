@@ -35,6 +35,9 @@ Rules:
 22. Prefer fully qualified names: ANALYTICS_AI_DB.ANALYTICS.SALES_ANALYTICS (and sibling marts).
 23. Prefer ANALYTICS.SALES_ANALYTICS / CUSTOMER_ANALYTICS / PRODUCT_ANALYTICS over CURATED joins when possible.
 24. For revenue use SUM(SALES) or TOTAL_SALES; for profit use SUM(PROFIT) or TOTAL_PROFIT.
+25. Questions like "list all products", "products available", or "product catalog" MUST query
+    ANALYTICS_AI_DB.ANALYTICS.PRODUCT_ANALYTICS (PRODUCT_ID, PRODUCT_NAME, CATEGORY, SUB_CATEGORY, …)
+    with ORDER BY CATEGORY, PRODUCT_NAME and LIMIT 500 — do NOT return INSUFFICIENT_DATA for product lists.
 """
 
 INSIGHT_SYSTEM_PROMPT = """You are a business analyst. Write 2–4 sentences of insight

@@ -185,6 +185,14 @@ QUESTION_CATALOG: list[dict[str, Any]] = [
         "expected_viz": "bar",
     },
     {
+        "id": 21b,
+        "question": "Provide all products available",
+        "expected_tables": [PRODUCTS],
+        "expected_metrics": ["PRODUCT_NAME"],
+        "sql_contains": [PRODUCTS, "PRODUCT_NAME", "CATEGORY"],
+        "expected_viz": "table",
+    },
+    {
         "id": 22,
         "question": "Which category has the highest quantity?",
         "expected_tables": [SALES],

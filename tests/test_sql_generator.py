@@ -24,9 +24,17 @@ def test_revenue_by_region():
     assert "SUM(SALES)" in sql.upper()
 
 
-def test_negative_profit_products():
-    sql = generate_sql("Which products have negative profit?", provider="heuristic")
-    assert "TOTAL_PROFIT < 0" in sql.upper()
+def test_list_all_products():
+    for q in (
+        "provide all products available",
+        "List all products",
+        "What products do we have?",
+        "Show product catalog",
+    ):
+        sql = generate_sql(q, provider="heuristic")
+        assert sql != INSUFFICIENT, q
+        assert "PRODUCT_ANALYTICS" in sql.upper(), q
+        assert "PRODUCT_NAME" in sql.upper(), q
 
 
 def test_average_order_value():

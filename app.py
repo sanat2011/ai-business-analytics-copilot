@@ -110,20 +110,18 @@ with st.sidebar:
         "SQL engine",
         options=["heuristic", "snowflake_cortex", "openai", "auto"],
         index=0,
-        help="Use heuristic locally; snowflake_cortex inside Snowflake Streamlit",
+        help=(
+            "heuristic = local templates (no LLM). "
+            "openai = your OPENAI_API_KEY calls api.openai.com from this app (not inside Snowflake). "
+            "snowflake_cortex = SNOWFLAKE.CORTEX.COMPLETE inside Snowflake (needs Cortex access). "
+            "auto = try Cortex, then OpenAI, then heuristic."
+        ),
     )
 
     if st.button("Clear conversation", use_container_width=True):
         st.session_state.messages = []
         st.session_state.pending_question = None
         st.rerun()
-
-    st.divider()
-    st.subheader("About")
-    st.caption(
-        "Natural language → validated read-only SQL → Snowflake. "
-        "MVP complete (Phases 1–14). See docs/DEPLOY_SNOWFLAKE_STREAMLIT.md."
-    )
 
 # ---------------------------------------------------------------------------
 # Main
